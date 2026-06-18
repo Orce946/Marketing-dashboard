@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesForce - Sales Officer Dashboard</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Leaflet.js CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="index.css">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-dot"></span>
+                    <span class="logo-text">ELITE GROUP <span class="accent-text">BD</span></span>
+                </div>
+                <button class="sidebar-close-btn" id="sidebar-close-btn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <div class="user-profile">
+                <div class="avatar-container">
+                    <div class="avatar-glow"></div>
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Sales Officer Avatar" class="avatar-img" id="user-avatar">
+                    <span class="status-indicator active" id="status-dot"></span>
+                </div>
+                <div class="user-info">
+                    <h3 class="user-name" id="user-name-text">Michael K.</h3>
+                    <p class="user-role">Sales Officer</p>
+                    <span class="badge badge-online" id="status-badge">
+                        <span class="pulse-ring"></span>
+                        ডিউটিতে আছেন
+                    </span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="home" id="btn-tab-home">
+                    <i data-lucide="home"></i>
+                    <span>হোম (ওভারভিউ)</span>
+                </button>
+                <button class="nav-item" data-tab="map" id="btn-tab-map">
+                    <i data-lucide="map"></i>
+                    <span>রুট ম্যাপ (রাস্তা)</span>
+                </button>
+                <button class="nav-item" data-tab="todo" id="btn-tab-todo">
+                    <i data-lucide="check-square"></i>
+                    <span>কাজের তালিকা (টু-ডু)</span>
+                    <span class="badge-count" id="todo-badge-count">3</span>
+                </button>
+                <button class="nav-item" data-tab="attendance" id="btn-tab-attendance">
+                    <i data-lucide="calendar"></i>
+                    <span>হাজিরা (অ্যাটেনডেন্স)</span>
+                </button>
+                <button class="nav-item" data-tab="dealer" id="btn-tab-dealer">
+                    <i data-lucide="users"></i>
+                    <span>ডিলার তালিকা (দোকান)</span>
+                </button>
+                <button class="nav-item" data-tab="neworder" id="btn-tab-neworder">
+                    <i data-lucide="shopping-cart"></i>
+                    <span>নতুন অর্ডার (অর্ডার নিন)</span>
+                </button>
+                <button class="nav-item" data-tab="payment" id="btn-tab-payment">
+                    <i data-lucide="dollar-sign"></i>
+                    <span>টাকা কালেকশন (পেমেন্ট)</span>
+                </button>
+                <button class="nav-item" data-tab="report" id="btn-tab-report">
+                    <i data-lucide="bar-chart-2"></i>
+                    <span>রিপোর্ট (বিক্রি রিপোর্ট)</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="btn-logout">
+                    <i data-lucide="log-out"></i>
+                    <span>ডিউটি শেষ (লগ আউট)</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div>
+                        <h1 class="page-title" id="page-title">Overview</h1>
+                        <p class="header-subtitle" id="header-date">Thursday, June 18, 2026</p>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <!-- Live GPS Indicator -->
+                    <div class="gps-indicator checked-in" id="header-gps-status">
+                        <i data-lucide="navigation" class="gps-icon"></i>
+                        <div class="gps-text">
+                            <span class="gps-label">জিপিএস ট্র্যাকিং চালু</span>
+                            <span class="gps-coords" id="header-coords">23.8103° N, 90.4125° E</span>
+                        </div>
+                    </div>
+
+                    <!-- Clock -->
+                    <div class="header-clock" id="header-clock">
+                        10:37:04 AM
+                    </div>
+
+                    <!-- Notification -->
+                    <div class="header-action-btn notification-btn" id="btn-notifications">
+                        <i data-lucide="bell"></i>
+                        <span class="notification-badge"></span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Container -->
+            <div class="content-body">
+                
+                <!-- HOME TAB PANEL -->
+                <div class="tab-panel active" id="panel-home">
+                    <!-- Dashboard Cards Grid -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card glow-green">
+                            <div class="kpi-header">
+                                <span class="kpi-title">আজকের বিক্রি</span>
+                                <div class="kpi-icon-wrapper sales">
+                                    <i data-lucide="trending-up"></i>
+                                </div>
+                            </div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-sales-value">$2,450.00</span>
+                                <span class="kpi-percent positive">+12.5%</span>
+                            </div>
+                            <div class="kpi-progress-bar-container">
+                                <div class="kpi-progress-fill" style="width: 70%;"></div>
+                            </div>
+                            <div class="kpi-footer">
+                                <span class="kpi-footer-text">টার্গেট: $৩,৫০০.০০</span>
+                                <span class="kpi-footer-text">৭০% টার্গেট পূরণ</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">দোকান চেক-ইন (ভিজিট)</span>
+                                <div class="kpi-icon-wrapper checkins">
+                                    <i data-lucide="map-pin"></i>
+                                </div>
+                            </div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-checkins-value">4 / 6</span>
+                                <span class="kpi-percent warning">বাকি আছে ২</span>
+                            </div>
+                            <div class="kpi-progress-bar-container">
+                                <div class="kpi-progress-fill alert-color" style="width: 66%;"></div>
+                            </div>
+                            <div class="kpi-footer">
+                                <span class="kpi-footer-text">চলতি রুট: Sector 4 Retail</span>
+                                <span class="kpi-footer-text">পরেরটা: Apex MegaMart</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">টাকা কালেকশন (পেমেন্ট)</span>
+                                <div class="kpi-icon-wrapper payments">
+                                    <i data-lucide="dollar-sign"></i>
+                                </div>
+                            </div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-payments-value">$1,850.00</span>
+                                <span class="kpi-percent positive">সব ক্লিয়ার</span>
+                            </div>
+                            <div class="kpi-progress-bar-container">
+                                <div class="kpi-progress-fill" style="width: 85%;"></div>
+                            </div>
+                            <div class="kpi-footer">
+                                <span class="kpi-footer-text">চেক: $১,২০০ | ক্যাশ: $৬৫০</span>
+                                <span class="kpi-footer-text">বাকি ক্লিয়ার: $০</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">কাজের সময়</span>
+                                <div class="kpi-icon-wrapper attendance">
+                                    <i data-lucide="clock"></i>
+                                </div>
+                            </div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-hours-value">04h 52m</span>
+                                <span class="badge badge-active-status">ডিউটি শুরু</span>
+                            </div>
+                            <div class="kpi-progress-bar-container">
+                                <div class="kpi-progress-fill" style="width: 60%;"></div>
+                            </div>
+                            <div class="kpi-footer">
+                                <span class="kpi-footer-text">ইন হয়েছেন: 08:45 AM</span>
+                                <span class="kpi-footer-text">এখন আছেন: Dhali Super Shop</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts & History Grid -->
+                    <div class="dashboard-grid">
+                        <!-- Chart Card -->
+                        <div class="dashboard-card main-chart-card">
+                            <div class="card-header">
+                                <div>
+                                    <h2 class="card-title">এই সপ্তাহের বিক্রি (পারফরম্যান্স)</h2>
+                                    <p class="card-subtitle">গত ৭ দিনের বিক্রি ও টার্গেটের তুলনা</p>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="legend-item"><span class="legend-color line-color"></span>বিক্রি (Sales)</span>
+                                    <span class="legend-item"><span class="legend-color dot-color"></span>টার্গেট</span>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <!-- Beautiful interactive SVG Neon Line Chart -->
+                                <svg class="neon-line-chart" viewBox="0 0 600 240" preserveAspectRatio="none">
+                                    <defs>
+                                        <!-- Neon Glow Filter -->
+                                        <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feGaussianBlur stdDeviation="6" result="blur" />
+                                            <feMerge>
+                                                <feMergeNode in="blur" />
+                                                <feMergeNode in="SourceGraphic" />
+                                            </feMerge>
+                                        </filter>
+                                        <!-- Gradient Fill Under Chart Line -->
+                                        <linearGradient id="chart-fill-gradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="rgba(191, 253, 43, 0.3)" />
+                                            <stop offset="100%" stop-color="rgba(191, 253, 43, 0)" />
+                                        </linearGradient>
+                                    </defs>
+                                    
+                                    <!-- Grid Lines -->
+                                    <line class="grid-line" x1="50" y1="30" x2="570" y2="30" />
+                                    <line class="grid-line" x1="50" y1="80" x2="570" y2="80" />
+                                    <line class="grid-line" x1="50" y1="130" x2="570" y2="130" />
+                                    <line class="grid-line" x1="50" y1="180" x2="570" y2="180" />
+                                    
+                                    <!-- Chart Area Fill -->
+                                    <path d="M 50,180 L 50,140 Q 130,90 210,120 T 370,50 T 530,90 L 570,70 L 570,180 Z" fill="url(#chart-fill-gradient)" />
+                                    
+                                    <!-- Target Reference Line (dashed) -->
+                                    <line class="target-dash-line" x1="50" y1="90" x2="570" y2="90" stroke-dasharray="6,4" />
+                                    
+                                    <!-- Neon Line -->
+                                    <path class="chart-path" d="M 50,140 Q 130,90 210,120 T 370,50 T 530,90 L 570,70" filter="url(#neon-glow)" />
+                                    
+                                    <!-- Data Points & Tooltips -->
+                                    <g class="chart-dots">
+                                        <circle cx="50" cy="140" r="5" class="chart-dot" data-val="$1,800" data-day="Mon" />
+                                        <circle cx="130" cy="100" r="5" class="chart-dot" data-val="$2,500" data-day="Tue" />
+                                        <circle cx="210" cy="120" r="5" class="chart-dot" data-val="$2,100" data-day="Wed" />
+                                        <circle cx="290" cy="80" r="5" class="chart-dot" data-val="$2,900" data-day="Thu" />
+                                        <circle cx="370" cy="50" r="5" class="chart-dot" data-val="$3,400" data-day="Fri" />
+                                        <circle cx="450" cy="65" r="5" class="chart-dot" data-val="$3,100" data-day="Sat" />
+                                        <circle cx="530" cy="90" r="5" class="chart-dot" data-val="$2,300" data-day="Sun" />
+                                    </g>
+                                    
+                                    <!-- X Axis Labels -->
+                                    <text x="50" y="210" class="axis-label" text-anchor="middle">Mon</text>
+                                    <text x="130" y="210" class="axis-label" text-anchor="middle">Tue</text>
+                                    <text x="210" y="210" class="axis-label" text-anchor="middle">Wed</text>
+                                    <text x="290" y="210" class="axis-label" text-anchor="middle">Thu</text>
+                                    <text x="370" y="210" class="axis-label" text-anchor="middle">Fri</text>
+                                    <text x="450" y="210" class="axis-label" text-anchor="middle">Sat</text>
+                                    <text x="530" y="210" class="axis-label" text-anchor="middle">Sun</text>
+                                    
+                                    <!-- Y Axis Labels -->
+                                    <text x="40" y="35" class="axis-label Y" text-anchor="end">$4k</text>
+                                    <text x="40" y="85" class="axis-label Y" text-anchor="end">$3k</text>
+                                    <text x="40" y="135" class="axis-label Y" text-anchor="end">$2k</text>
+                                    <text x="40" y="185" class="axis-label Y" text-anchor="end">$1k</text>
+                                </svg>
+                                <div class="chart-tooltip" id="chart-tooltip"></div>
+                            </div>
+                        </div>
+
+                        <!-- Side Activity Log Card -->
+                        <div class="dashboard-card activity-card">
+                            <div class="card-header">
+                                <div>
+                                    <h2 class="card-title">সাম্প্রতিক কাজ (অ্যাক্টিভিটি)</h2>
+                                    <p class="card-subtitle">ফিল্ডের কাজের রিয়েল-টাইম লগ</p>
+                                </div>
+                                <button class="btn-icon" id="btn-refresh-activity">
+                                    <i data-lucide="refresh-cw"></i>
+                                </button>
+                            </div>
+                            <div class="activity-timeline" id="home-activity-timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-icon green">
+                                        <i data-lucide="check-circle-2"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h4 class="timeline-title">Check-in at Dhali Super Shop</h4>
+                                        <p class="timeline-desc">Logged location check-in. Time: 10:15 AM</p>
+                                        <span class="timeline-time">22 mins ago</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-icon accent">
+                                        <i data-lucide="shopping-bag"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h4 class="timeline-title">Order Placed: #ORD-9028</h4>
+                                        <p class="timeline-desc">Placed order for Al-Amin Stores worth $420.00</p>
+                                        <span class="timeline-time">1 hour ago</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-icon blue">
+                                        <i data-lucide="dollar-sign"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h4 class="timeline-title">Payment Collected</h4>
+                                        <p class="timeline-desc">Received cheque of $1,200.00 from Apex MegaMart</p>
+                                        <span class="timeline-time">2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-icon green">
+                                        <i data-lucide="log-in"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h4 class="timeline-title">Duty Checked In</h4>
+                                        <p class="timeline-desc">Started beat route at Sector 4 Retail area</p>
+                                        <span class="timeline-time">08:45 AM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MAP TAB PANEL -->
+                <div class="tab-panel" id="panel-map">
+                    <div class="map-view-container">
+                        <!-- Map Sidebar -->
+                        <div class="map-sidebar">
+                            <div class="map-sidebar-search">
+                                <i data-lucide="search"></i>
+                                <input type="text" id="map-dealer-search" placeholder="দোকান খুঁজুন...">
+                            </div>
+                            
+                            <div class="beat-info-card">
+                                <div class="beat-label">আজকের রুট (বিট)</div>
+                                <div class="beat-title" id="beat-route-name">Sector 4 Retail Loop</div>
+
+                                <!-- Follow-up / Risk Status Legend -->
+                                <div style="display:flex; gap:10px; flex-wrap:wrap; margin: 10px 0 14px;">
+                                    <span class="map-alert-chip urgent"><span class="chip-dot" style="color: var(--danger);"></span> Urgent Risk</span>
+                                    <span class="map-alert-chip followup"><span class="chip-dot" style="color: var(--warning);"></span> Follow up</span>
+                                    <span class="map-alert-chip healthy"><span class="chip-dot" style="color: var(--success);"></span> Healthy</span>
+                                </div>
+
+                                <div class="beat-stats">
+                                    <div class="beat-stat">
+                                        <span class="stat-num" id="map-stat-visited">4</span>
+                                        <span class="stat-lbl">ভিজিট শেষ</span>
+                                    </div>
+                                    <div class="beat-stat">
+                                        <span class="stat-num text-accent" id="map-stat-pending">2</span>
+                                        <span class="stat-lbl">বাকি আছে</span>
+                                    </div>
+                                    <div class="beat-stat">
+                                        <span class="stat-num" id="map-stat-total">6</span>
+                                        <span class="stat-lbl">মোট ডিলার</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dealer-beat-list" id="map-dealer-list">
+                                <!-- Loaded dynamically via JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Map Canvas Container -->
+                        <div class="map-canvas-wrapper">
+                            <div id="map-canvas"></div>
+                            <!-- Offline/Fallback Screen if Leaflet does not load or network fails -->
+                            <div class="map-fallback-overlay hidden" id="map-fallback">
+                                <i data-lucide="map-pin" class="fallback-icon bounce"></i>
+                                <h3>ম্যাপে রুট</h3>
+                                <p>এখানে বিট রুটের ম্যাপ লোড হবে।</p>
+                                <button class="btn btn-accent" id="btn-retry-map">ম্যাপ লোড করুন</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TO DO LIST TAB PANEL -->
+                <div class="tab-panel" id="panel-todo">
+                    <div class="todo-layout">
+                        <!-- Left sidebar details -->
+                        <div class="todo-stats-card">
+                            <h3 class="card-title">কাজের হিসাব (অ্যানালিটিক্স)</h3>
+                            <div class="todo-radial-progress">
+                                <svg class="progress-ring-svg" width="120" height="120">
+                                    <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+                                    <circle class="ring-fill" id="todo-progress-ring" cx="60" cy="60" r="50" stroke-dasharray="314.15" stroke-dashoffset="109.9"></circle>
+                                </svg>
+                                <div class="ring-text-center">
+                                    <span class="percent-num" id="todo-progress-pct">65%</span>
+                                    <span class="percent-lbl">সম্পন্ন</span>
+                                </div>
+                            </div>
+                            
+                            <div class="todo-category-summary">
+                                <div class="todo-cat-row">
+                                    <span class="cat-pill pill-sales">দোকান ভিজিট</span>
+                                    <span class="cat-count" id="todo-count-sales">2 / 3</span>
+                                </div>
+                                <div class="todo-cat-row">
+                                    <span class="cat-pill pill-payment">টাকা কালেকশন</span>
+                                    <span class="cat-count" id="todo-count-payment">1 / 2</span>
+                                </div>
+                                <div class="todo-cat-row">
+                                    <span class="cat-pill pill-delivery">ডেলিভারি চেক</span>
+                                    <span class="cat-count" id="todo-count-delivery">1 / 1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right List panel -->
+                        <div class="todo-list-wrapper">
+                            <div class="todo-filters">
+                                <button class="todo-filter-btn active" data-filter="all" id="btn-filter-todo-all">সব কাজ (All)</button>
+                                <button class="todo-filter-btn" data-filter="pending" id="btn-filter-todo-pending">বাকি কাজ</button>
+                                <button class="todo-filter-btn" data-filter="completed" id="btn-filter-todo-completed">শেষ হয়েছে</button>
+                            </div>
+
+                            <form class="todo-add-form" id="todo-add-form">
+                                <div class="input-group flex-fill">
+                                    <i data-lucide="plus" class="input-icon"></i>
+                                    <input type="text" id="todo-new-title" placeholder="আজকের বিটের নতুন কাজ এখানে লিখুন..." required>
+                                </div>
+                                <select id="todo-new-category" class="todo-select">
+                                    <option value="sales">Sales Visit</option>
+                                    <option value="payment">Payment</option>
+                                    <option value="delivery">Delivery Check</option>
+                                </select>
+                                <button type="submit" class="btn btn-accent btn-add-todo">Add Task</button>
+                            </form>
+
+                            <div class="todo-items-list" id="todo-items-list">
+                                <!-- Loaded dynamically via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATTENDANCE TAB PANEL -->
+                <div class="tab-panel" id="panel-attendance">
+                    <div class="attendance-layout">
+                        <!-- Left Block: Punch Card -->
+                        <div class="attendance-card flex-1">
+                            <div class="punch-time-display">
+                                <div class="punch-live-date" id="punch-live-date">Thursday, June 18, 2026</div>
+                                <div class="punch-live-time" id="punch-live-time">10:37:04 AM</div>
+                                <p class="punch-gps-status" id="punch-gps-text">
+                                    <span class="dot-blink"></span> জিপিএস কানেক্টেড (Accuracy: 5m)
+                                </p>
+                            </div>
+
+                            <div class="punch-button-container">
+                                <button class="punch-btn checked-in" id="btn-punch-action">
+                                    <span class="punch-inner">
+                                        <i data-lucide="power" class="punch-icon"></i>
+                                        <span class="punch-btn-text" id="punch-btn-text">ডিউটি শেষ (Out)</span>
+                                        <span class="punch-btn-subtext" id="punch-btn-sub">এখানে প্রেস করুন</span>
+                                    </span>
+                                </button>
+                            </div>
+
+                            <div class="attendance-quick-stats">
+                                <div class="att-stat">
+                                    <span class="att-val" id="att-stats-in-time">08:45 AM</span>
+                                    <span class="att-lbl">চেক-ইন হয়েছে</span>
+                                </div>
+                                <div class="att-border"></div>
+                                <div class="att-stat">
+                                    <span class="att-val" id="att-stats-status">সময়মতো</span>
+                                    <span class="att-lbl">শিফটের অবস্থা</span>
+                                </div>
+                                <div class="att-border"></div>
+                                <div class="att-stat">
+                                    <span class="att-val" id="att-stats-out-time">-- : --</span>
+                                    <span class="att-lbl">চেক-আউট হয়েছে</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Block: Attendance Logs & Request -->
+                        <div class="attendance-logs-card flex-2">
+                            <div class="card-header-with-actions">
+                                <h3 class="card-title">এই মাসের হাজিরা লগ</h3>
+                                <button class="btn btn-outline btn-sm" id="btn-leave-request">
+                                    <i data-lucide="file-text"></i> ছুটির আবেদন
+                                </button>
+                            </div>
+
+                            <div class="table-container">
+                                <table class="custom-table" id="attendance-log-table">
+                                    <thead>
+                                        <tr>
+                                            <th>তারিখ</th>
+                                            <th>Clock In</th>
+                                            <th>Clock Out</th>
+                                            <th>কাজের সময়</th>
+                                            <th>অবস্থা (স্ট্যাটাস)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attendance-log-body">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEALER TAB PANEL -->
+                <div class="tab-panel" id="panel-dealer">
+                    <div class="dealer-layout">
+                        <!-- Left Side: Dealer Search & List -->
+                        <div class="dealer-list-pane">
+                            <div class="search-filters">
+                                <div class="input-group">
+                                    <i data-lucide="search"></i>
+                                    <input type="text" id="dealer-search-input" placeholder="ডিলারের নাম দিয়ে খুঁজুন...">
+                                </div>
+                                <select id="dealer-type-filter" class="custom-select">
+                                    <option value="all">সব চ্যানেল (All)</option>
+                                    <option value="Supermarket">Supermarket</option>
+                                    <option value="Retailer">Retailer</option>
+                                    <option value="Wholesale">Wholesale</option>
+                                </select>
+                            </div>
+
+                            <div class="dealer-cards-scroll" id="dealer-cards-list">
+                                <!-- Loaded dynamically via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Right Side: Dealer Details -->
+                        <div class="dealer-detail-pane" id="dealer-detail-panel">
+                            <!-- Selected Dealer content load -->
+                            <div class="dealer-empty-state" id="dealer-detail-empty">
+                                <i data-lucide="users" class="empty-icon"></i>
+                                <h3>ডিলার সিলেক্ট করুন</h3>
+                                <p>তালিকা থেকে ডিলার ক্লিক করুন বাকি টাকা, লিমিট ও নতুন অর্ডারের বিবরণ দেখতে।</p>
+                            </div>
+                            
+                            <div class="dealer-detail-content hidden" id="dealer-detail-content">
+                                <!-- Dynamically updated via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW ORDER TAB PANEL -->
+                <div class="tab-panel" id="panel-neworder">
+                    <div class="order-layout">
+                        <!-- Left: Products Catalog -->
+                        <div class="order-catalog-pane">
+                            <div class="catalog-header">
+                                <div class="input-group flex-fill">
+                                    <i data-lucide="search"></i>
+                                    <input type="text" id="catalog-search" placeholder="প্রোডাক্ট খুঁজুন...">
+                                </div>
+                                <select id="catalog-category" class="custom-select">
+                                    <option value="all">সব প্রোডাক্ট (All)</option>
+                                    <option value="beverages">পানীয় (বেভারেজ)</option>
+                                    <option value="snacks">স্ন্যাক্স (নাস্তা)</option>
+                                    <option value="packaged">প্যাকেটজাত পণ্য</option>
+                                </select>
+                            </div>
+
+                            <div class="products-grid" id="products-catalog-grid">
+                                <!-- Loaded dynamically via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Right: Cart Summary -->
+                        <div class="order-cart-pane">
+                            <div class="cart-header">
+                                <div class="cart-title-row">
+                                    <i data-lucide="shopping-bag" class="text-accent"></i>
+                                    <h3>নতুন অর্ডার (কার্ট)</h3>
+                                </div>
+                                <span class="cart-item-count" id="cart-item-count">0 items</span>
+                            </div>
+
+                            <!-- Dealer Selector for Order -->
+                            <div class="cart-dealer-selector">
+                                <label for="cart-dealer-select">কোন ডিলারের অর্ডার?</label>
+                                <select id="cart-dealer-select" class="custom-select border-accent">
+                                    <option value="">-- ডিলার সিলেক্ট করুন --</option>
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+
+                            <div class="cart-items-list" id="cart-items-container">
+                                <div class="cart-empty-state" id="cart-empty-state">
+                                    <i data-lucide="shopping-cart"></i>
+                                    <p>কার্ট খালি আছে। বাম দিক থেকে প্রোডাক্ট যোগ করুন।</p>
+                                </div>
+                                <!-- Selected Cart Items via JS -->
+                            </div>
+
+                            <div class="cart-summary-pricing">
+                                <div class="pricing-row">
+                                    <span>সাবটোটাল</span>
+                                    <span id="cart-subtotal">$0.00</span>
+                                </div>
+                                <div class="pricing-row">
+                                    <span>ডিসকাউন্ট (৫%)</span>
+                                    <span class="text-accent" id="cart-discount">-$0.00</span>
+                                </div>
+                                <div class="pricing-row">
+                                    <span>ভ্যাট (১৫%)</span>
+                                    <span id="cart-tax">$0.00</span>
+                                </div>
+                                <div class="pricing-row divider"></div>
+                                <div class="pricing-row grand-total">
+                                    <span>মোট বিল (সর্বমোট)</span>
+                                    <span class="text-glow-green" id="cart-total">$0.00</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-accent btn-block btn-book-order" id="btn-submit-order" disabled>
+                                অর্ডার কনফার্ম করুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAYMENT TAB PANEL -->
+                <div class="tab-panel" id="panel-payment">
+                    <div class="payment-layout">
+                        <!-- Left Column: Add Collection Form -->
+                        <div class="payment-form-card">
+                            <h3 class="card-title">টাকা কালেকশন এন্ট্রি</h3>
+                            <p class="card-subtitle">দোকানদারের থেকে টাকা পেয়ে এখানে লিখে রাখুন</p>
+                            
+                            <form id="payment-collection-form" class="custom-form mt-4">
+                                <div class="form-group">
+                                    <label for="pay-dealer-select">ডিলার সিলেক্ট করুন</label>
+                                    <select id="pay-dealer-select" class="custom-select" required>
+                                        <option value="">-- ডিলার সিলেক্ট --</option>
+                                        <!-- Loaded dynamically -->
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="pay-amount">কত টাকা পেয়েছেন? ($)</label>
+                                    <div class="input-group-currency">
+                                        <span class="currency-symbol">$</span>
+                                        <input type="number" id="pay-amount" step="0.01" min="1" placeholder="0.00" class="input-currency" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>পেমেন্ট পদ্ধতি (মেথড)</label>
+                                    <div class="payment-method-selector">
+                                        <label class="pay-method-option">
+                                            <input type="radio" name="pay-method" value="Cash" checked>
+                                            <div class="method-card">
+                                                <i data-lucide="coins"></i>
+                                                <span>Cash</span>
+                                            </div>
+                                        </label>
+                                        <label class="pay-method-option">
+                                            <input type="radio" name="pay-method" value="Cheque">
+                                            <div class="method-card">
+                                                <i data-lucide="file-check"></i>
+                                                <span>Cheque</span>
+                                            </div>
+                                        </label>
+                                        <label class="pay-method-option">
+                                            <input type="radio" name="pay-method" value="Bank Transfer">
+                                            <div class="method-card">
+                                                <i data-lucide="landmark"></i>
+                                                <span>Bank Tx</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="group-cheque-ref" style="display:none;">
+                                    <label for="pay-ref" id="pay-ref-lbl">Cheque / Reference Number</label>
+                                    <input type="text" id="pay-ref" placeholder="রেফারেন্স বা চেক নম্বর দিন">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="pay-remarks">নোট (মন্তব্য)</label>
+                                    <textarea id="pay-remarks" placeholder="এখানে কিছু লিখতে পারেন..."></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-accent btn-block mt-4" id="btn-save-payment">
+                                    পেমেন্ট রিসিট সেভ করুন
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Right Column: Collection History -->
+                        <div class="payment-history-card">
+                            <h3 class="card-title">সাম্প্রতিক কালেকশন</h3>
+                            <p class="card-subtitle">এই মাসের ফিল্ড কালেকশন রিপোর্ট</p>
+
+                            <div class="table-container mt-4">
+                                <table class="custom-table" id="payment-history-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Receipt ID</th>
+                                            <th>Dealer</th>
+                                            <th>তারিখ ও সময়</th>
+                                            <th>Method</th>
+                                            <th>Amount</th>
+                                            <th>অবস্থা (স্ট্যাটাস)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="payment-history-body">
+                                        <!-- Loaded dynamically via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REPORT TAB PANEL -->
+                <div class="tab-panel" id="panel-report">
+                    <div class="report-layout">
+                        <!-- Top KPI Row -->
+                        <div class="report-summary-cards">
+                            <div class="report-summary-card">
+                                <span class="rep-lbl">মাসের টার্গেট</span>
+                                <span class="rep-val">$75,000.00</span>
+                                <span class="rep-sub">Target: June 2026</span>
+                            </div>
+                            <div class="report-summary-card text-accent">
+                                <span class="rep-lbl">বিক্রির লক্ষ্য পূরণ</span>
+                                <span class="rep-val" id="rep-total-achievement">$58,250.00</span>
+                                <span class="rep-sub">৭৭.৬% পূরণ হয়েছে</span>
+                            </div>
+                            <div class="report-summary-card">
+                                <span class="rep-lbl">বাকি টার্গেট</span>
+                                <span class="rep-val" id="rep-remaining-target">$16,750.00</span>
+                                <span class="rep-sub">আনুমানিক ১২ দিন বাকি</span>
+                            </div>
+                            <div class="report-summary-card">
+                                <span class="rep-lbl">আনুমানিক কমিশন (বোনাস)</span>
+                                <span class="rep-val text-green" id="rep-incentives">$1,450.00</span>
+                                <span class="rep-sub">আজকের বিক্রি অনুযায়ী</span>
+                            </div>
+                        </div>
+
+                        <!-- Charts and Tables -->
+                        <div class="report-grid">
+                            <!-- Visual Progress Bar chart -->
+                            <div class="dashboard-card report-chart-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">ক্যাটাগরি অনুযায়ী বিক্রির বিবরণ</h3>
+                                    <p class="card-subtitle">কোন ক্যাটাগরিতে কত বিক্রি হলো তার বিবরণ</p>
+                                </div>
+                                <div class="report-bars-list" id="report-category-bars">
+                                    <!-- Loaded dynamically via JS -->
+                                </div>
+                            </div>
+
+                            <!-- Performance Grid -->
+                            <div class="dashboard-card report-table-card">
+                                <div class="card-header-with-actions">
+                                    <div>
+                                        <h3 class="card-title">দৈনিক বিক্রি ও কালেকশন রিপোর্ট</h3>
+                                        <p class="card-subtitle">গত ১ সপ্তাহের বিস্তারিত রিপোর্ট</p>
+                                    </div>
+                                    <button class="btn btn-outline btn-sm" id="btn-export-reports">
+                                        <i data-lucide="download"></i> রিপোর্ট ডাউনলোড
+                                    </button>
+                                </div>
+                                <div class="table-container mt-2">
+                                    <table class="custom-table" id="report-details-table">
+                                        <thead>
+                                            <tr>
+                                                <th>তারিখ</th>
+                                                <th>রুট (বিট)</th>
+                                                <th>Visits (Target/Actual)</th>
+                                                <th>Order Booked</th>
+                                                <th>Collection</th>
+                                                <th>বিক্রি (Sales)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="report-table-body">
+                                            <!-- Dynamically added -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- LEAVE REQUEST MODAL -->
+    <div class="modal-backdrop hidden" id="leave-request-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>ছুটির আবেদন করুন (Leave Request)</h3>
+                <button class="modal-close" id="btn-close-leave-modal"><i data-lucide="x"></i></button>
+            </div>
+            <form id="leave-request-form" class="custom-form mt-3">
+                <div class="form-group">
+                    <label for="leave-type">ছুটির ধরণ</label>
+                    <select id="leave-type" class="custom-select" required>
+                        <option value="Casual Leave">নৈমিত্তিক ছুটি (ক্যাজুয়াল লিভ)</option>
+                        <option value="Sick Leave">অসুস্থতাজনিত ছুটি (সিক লিভ)</option>
+                        <option value="Earned Leave">অর্জিত ছুটি (আর্নড লিভ)</option>
+                    </select>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label for="leave-start-date">কবে থেকে? (শুরু)</label>
+                        <input type="date" id="leave-start-date" class="custom-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="leave-end-date">কবে পর্যন্ত? (শেষ)</label>
+                        <input type="date" id="leave-end-date" class="custom-input" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="leave-reason">ছুটির কারণ</label>
+                    <textarea id="leave-reason" class="custom-textarea" placeholder="Explain reason for leave..." required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="btn-cancel-leave">বাতিল করুন</button>
+                    <button type="submit" class="btn btn-accent">আবেদন জমা দিন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ORDER SUCCESS MODAL -->
+    <div class="modal-backdrop hidden" id="order-success-modal">
+        <div class="modal-card success-card">
+            <div class="success-glow"></div>
+            <div class="success-icon-wrapper">
+                <i data-lucide="check" class="success-icon"></i>
+            </div>
+            <h2>অর্ডার সফলভাবে বুকিং হয়েছে!</h2>
+            <p>অর্ডার কনফার্ম হয়েছে ও ডেলিভারি সার্ভারে পাঠানো হয়েছে।</p>
+            <div class="success-details">
+                <div class="s-row">
+                    <span>অর্ডার রেফারেন্স নম্বর:</span>
+                    <strong class="text-accent" id="success-ref-num">ORD-29801</strong>
+                </div>
+                <div class="s-row">
+                    <span>ডিলারের নাম:</span>
+                    <strong id="success-dealer-name">Dhali Super Shop</strong>
+                </div>
+                <div class="s-row">
+                    <span>সর্বমোট টাকা:</span>
+                    <strong class="text-glow-green" id="success-total-amt">$420.00</strong>
+                </div>
+            </div>
+            <button class="btn btn-accent btn-block mt-4" id="btn-success-close">ঠিক আছে</button>
+        </div>
+    </div>
+
+    <!-- Leaflet.js JavaScript for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Custom JavaScript -->
+    <script src="index.js"></script>
+</body>
+</html>
