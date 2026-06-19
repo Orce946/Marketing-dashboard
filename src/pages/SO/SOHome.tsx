@@ -23,7 +23,7 @@ const SOHome: React.FC = () => {
     <div className="max-w-lg mx-auto w-full space-y-6 px-4">
       
       {/* Monthly Performance (Overlapping Card) */}
-      <div className="bg-white border border-border rounded-2xl p-4 shadow-md -mt-12 relative z-20">
+      <div className="bg-white border border-border rounded-3xl p-4 shadow-md -mt-12 relative z-20">
          <div className="flex justify-between items-center mb-3">
             <span className="text-text-primary font-extrabold text-sm">মাসিক পারফরম্যান্স</span>
             <span className="text-[10px] font-extrabold text-accent bg-accent/10 px-2 py-0.5 rounded-full uppercase tracking-wide">চলতি মাস</span>
