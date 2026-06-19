@@ -243,11 +243,11 @@ const SOLayout: React.FC = () => {
           </div>
           </div>
             {/* Clock and Date in Header */}
-            <div className="w-full text-center mt-6">
-              <h2 className="text-4xl font-extrabold font-mono tracking-tighter drop-shadow-md">
+            <div className="w-full text-right mt-4 pr-2">
+              <h2 className="text-2xl font-extrabold font-mono tracking-tighter drop-shadow-md">
                 {formatTime(currentTime)}
               </h2>
-              <p className="text-white/90 font-bold mt-1 drop-shadow-sm">{formatDate(currentTime)}</p>
+              <p className="text-white/80 font-bold text-xs mt-0.5 drop-shadow-sm">{formatDate(currentTime)}</p>
             </div>
         </header>
         )}
