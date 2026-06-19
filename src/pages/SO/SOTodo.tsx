@@ -30,9 +30,24 @@ const SOTodo: React.FC = () => {
             <ArrowLeft className="w-6 h-6 text-text-primary" />
           </button>
           <div className="flex-1">
-            <h2 className="text-2xl font-extrabold text-text-primary mb-1 leading-tight">আজকের কাজ (To-Do)</h2>
-            <p className="text-text-muted font-bold text-sm">{pendingDealers.length}টি ভিজিট বাকি, {completedTasks}টি সম্পন্ন</p>
+            <h2 className="text-2xl font-extrabold text-text-primary leading-tight">আজকের কাজ (To-Do)</h2>
           </div>
+        </div>
+
+        {/* 3 Metric Sections */}
+        <div className="grid grid-cols-3 gap-3 mb-4">
+           <div className="bg-white border border-border rounded-xl p-3 shadow-sm text-center">
+              <p className="text-[10px] text-text-muted font-bold uppercase tracking-wider mb-1">মোট কাজ</p>
+              <p className="text-xl font-black text-text-primary">{totalTasks}</p>
+           </div>
+           <div className="bg-warning/10 border border-warning/20 rounded-xl p-3 shadow-sm text-center">
+              <p className="text-[10px] text-warning font-bold uppercase tracking-wider mb-1">বাকি আছে</p>
+              <p className="text-xl font-black text-warning">{pendingDealers.length}</p>
+           </div>
+           <div className="bg-success/10 border border-success/20 rounded-xl p-3 shadow-sm text-center">
+              <p className="text-[10px] text-success font-bold uppercase tracking-wider mb-1">সম্পন্ন</p>
+              <p className="text-xl font-black text-success">{completedTasks}</p>
+           </div>
         </div>
 
         {/* Progress Bar Chart */}
