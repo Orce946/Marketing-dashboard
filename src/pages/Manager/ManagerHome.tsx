@@ -1,6 +1,6 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Users, AlertTriangle, ShieldAlert, CheckCircle2, TrendingUp, PhoneCall, Check } from 'lucide-react';
+import { Users, AlertTriangle, ShieldAlert, CheckCircle2, PhoneCall, Check } from 'lucide-react';
 
 const data = [
   { name: 'Mon', sales: 4000, target: 2400 },

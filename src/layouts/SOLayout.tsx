@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-import { Home, Map as MapIcon, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, Menu, X, LogOut } from 'lucide-react';
+import { Home, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, Menu, X, LogOut } from 'lucide-react';
 
 const SOLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

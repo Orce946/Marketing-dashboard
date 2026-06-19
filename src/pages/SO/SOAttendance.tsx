@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Clock, CheckCircle, Navigation, ArrowLeft } from 'lucide-react';
+import { Clock, CheckCircle, Navigation, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SOAttendance: React.FC = () => {
@@ -28,7 +28,7 @@ const SOAttendance: React.FC = () => {
             lng: position.coords.longitude
           });
         },
-        (error) => {
+        (_error) => {
           setLocationError("লোকেশন পাওয়া যাচ্ছে না");
         },
         { enableHighAccuracy: true }

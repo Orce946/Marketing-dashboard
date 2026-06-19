@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import SOLayout from './layouts/SOLayout';
 import ManagerLayout from './layouts/ManagerLayout';

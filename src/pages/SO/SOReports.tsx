@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, Clock, CheckSquare, Target, FileSpreadsheet, ArrowLeft } from 'lucide-react';
+import { Clock, CheckSquare, Target, FileSpreadsheet, ArrowLeft } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -64,8 +64,7 @@ const SOReports: React.FC = () => {
     XLSX.writeFile(wb, `Daily_Report_${new Date().toISOString().split('T')[0]}.xlsx`);
   };
 
-  const completedTasksCount = reportData.tasks.filter(t => t.status === 'Completed').length;
-  const totalTasksCount = reportData.tasks.length;
+
 
   return (
     <div className="p-4 space-y-6 max-w-lg mx-auto pb-24">

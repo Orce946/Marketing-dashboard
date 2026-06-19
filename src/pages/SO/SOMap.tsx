@@ -57,7 +57,7 @@ import { ArrowLeft } from 'lucide-react';
 const SOMap: React.FC = () => {
   const navigate = useNavigate();
   const [center, setCenter] = useState<[number, number]>(dhakaCenter);
-  const [activeRoute, setActiveRoute] = useState('All Dhaka Route');
+  const [activeRoute] = useState('All Dhaka Route');
 
   const getIconForStatus = (status: string) => {
     if (status === 'success') return successIcon;

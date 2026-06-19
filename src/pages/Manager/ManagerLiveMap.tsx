@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import React from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { AlertTriangle, User, Navigation2 } from 'lucide-react';
+import { AlertTriangle, Navigation2 } from 'lucide-react';
 import { useTheme } from '../../layouts/ManagerLayout';
 
 // Custom icons for SOs
