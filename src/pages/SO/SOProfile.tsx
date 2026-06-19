@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, User, Phone, MapPin, Briefcase } from 'lucide-react';
+import { ArrowLeft, Phone, MapPin, Briefcase } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SOProfile: React.FC = () => {

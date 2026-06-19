@@ -13,7 +13,7 @@ const SOTaskCompletion: React.FC = () => {
   const [competitorInfo, setCompetitorInfo] = useState('');
   const [dealerComplaints, setDealerComplaints] = useState('');
   const [nextFollowUp, setNextFollowUp] = useState('');
-  const [notes, setNotes] = useState('');
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

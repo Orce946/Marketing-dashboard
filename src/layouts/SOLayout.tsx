@@ -336,23 +336,5 @@ const SOLayout: React.FC = () => {
   );
 };
 
-const SidebarItem: React.FC<{ to: string; icon: React.ReactNode; label: string; onClick: () => void }> = ({ to, icon, label, onClick }) => {
-  return (
-    <NavLink
-      to={to}
-      onClick={onClick}
-      className={({ isActive }) =>
-        `flex items-center gap-3 w-full p-3.5 rounded-xl transition-colors font-bold ${
-          isActive 
-            ? 'bg-accent text-white shadow-md' 
-            : 'text-white/70 hover:bg-white/10 hover:text-white'
-        }`
-      }
-    >
-      {icon}
-      <span>{label}</span>
-    </NavLink>
-  );
-};
 
 export default SOLayout;
