@@ -14,19 +14,39 @@ const SOTodo: React.FC = () => {
     }).filter(d => d !== undefined) as typeof dealers;
   }, [visitPlan]);
 
+  const completedTasks = 1; // Mock completed task
+  const totalTasks = pendingDealers.length + completedTasks;
+  const completionPercentage = Math.round((completedTasks / totalTasks) * 100) || 0;
+
   return (
     <div className="p-4 flex flex-col h-full max-w-lg mx-auto pb-20">
       
-      <div className="flex items-center gap-4 flex-shrink-0 mb-6">
-        <button 
-          onClick={() => navigate(-1)} 
-          className="w-10 h-10 rounded-full border border-border flex items-center justify-center active:bg-gray-100 bg-white"
-        >
-          <ArrowLeft className="w-6 h-6 text-text-primary" />
-        </button>
-        <div>
-          <h2 className="text-2xl font-extrabold text-text-primary mb-1 leading-tight">আজকের কাজ (To-Do)</h2>
-          <p className="text-text-muted font-bold text-sm">{pendingDealers.length}টি ভিজিট বাকি, ১টি সম্পন্ন</p>
+      <div className="mb-6">
+        <div className="flex items-center gap-4 flex-shrink-0 mb-4">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="w-10 h-10 rounded-full border border-border flex items-center justify-center active:bg-gray-100 bg-white"
+          >
+            <ArrowLeft className="w-6 h-6 text-text-primary" />
+          </button>
+          <div className="flex-1">
+            <h2 className="text-2xl font-extrabold text-text-primary mb-1 leading-tight">আজকের কাজ (To-Do)</h2>
+            <p className="text-text-muted font-bold text-sm">{pendingDealers.length}টি ভিজিট বাকি, {completedTasks}টি সম্পন্ন</p>
+          </div>
+        </div>
+
+        {/* Progress Bar Chart */}
+        <div className="bg-white p-4 rounded-2xl border border-border shadow-sm">
+           <div className="flex justify-between text-sm font-bold text-text-secondary mb-2">
+              <span>অগ্রগতি (Progress)</span>
+              <span className="text-success">{completionPercentage}% সম্পন্ন</span>
+           </div>
+           <div className="h-2.5 w-full bg-background-offwhite rounded-full overflow-hidden border border-border">
+              <div 
+                className="h-full bg-success rounded-full transition-all duration-500 ease-out" 
+                style={{ width: `${completionPercentage}%` }}
+              ></div>
+           </div>
         </div>
       </div>
 
