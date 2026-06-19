@@ -100,12 +100,12 @@ const SOHome: React.FC = () => {
                 <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
                   <p className="text-sm font-semibold text-gray-700">{action.reason}</p>
                 </div>
-                <button 
-                  onClick={() => alert(`Starting ${action.type} action for ${dealer.name}`)}
-                  className="w-full py-3 rounded-xl bg-accent text-white font-bold text-center shadow-md active:bg-accent-hover transition-colors"
+                <Link 
+                  to="/so/todo"
+                  className="block w-full py-3 rounded-xl bg-accent text-white font-bold text-center shadow-md active:bg-accent-hover transition-colors"
                 >
-                   Start Action
-                </button>
+                   কাজ শুরু করুন
+                </Link>
              </div>
            );
          })}

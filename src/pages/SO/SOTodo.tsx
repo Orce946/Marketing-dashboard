@@ -1,9 +1,18 @@
-import React from 'react';
-import { CheckCircle, Clock, ArrowLeft } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { CheckCircle, Clock, ArrowLeft, Navigation } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { dealers, getRecommendedVisitPlan } from '../../data/mockData';
 
 const SOTodo: React.FC = () => {
   const navigate = useNavigate();
+  const currentUserId = 'o-1'; // Hardcoded for SO View
+  
+  const visitPlan = useMemo(() => getRecommendedVisitPlan(currentUserId), []);
+  const pendingDealers = useMemo(() => {
+    return visitPlan.map(action => {
+      return dealers.find(d => d.id === action.dealerId);
+    }).filter(d => d !== undefined) as typeof dealers;
+  }, [visitPlan]);
 
   return (
     <div className="p-4 flex flex-col h-full max-w-lg mx-auto pb-20">
@@ -17,55 +26,48 @@ const SOTodo: React.FC = () => {
         </button>
         <div>
           <h2 className="text-2xl font-extrabold text-text-primary mb-1 leading-tight">আজকের কাজ (To-Do)</h2>
-          <p className="text-text-muted font-bold text-sm">৩টি ভিজিট বাকি, ২টি সম্পন্ন</p>
+          <p className="text-text-muted font-bold text-sm">{pendingDealers.length}টি ভিজিট বাকি, ১টি সম্পন্ন</p>
         </div>
       </div>
 
       <div className="flex-grow space-y-4">
         
-        {/* Pending Task 1 */}
-        <div className="bg-white border-l-8 border-l-warning border-y-2 border-r-2 border-border rounded-xl p-4 shadow-sm flex flex-col gap-3">
-           <div className="flex justify-between items-start">
-             <div>
-               <h3 className="font-bold text-xl leading-tight">Rahim Store</h3>
-               <p className="text-sm font-bold text-warning mt-1 flex items-center gap-1">
-                 <Clock className="w-4 h-4"/> ৳1.2 লাখ বাকি (45 দিন)
-               </p>
-             </div>
-           </div>
-           <div className="grid grid-cols-2 gap-2 mt-2">
-              <Link to="/map" className="py-2.5 bg-accent/10 text-accent text-center font-bold rounded-lg text-sm active:bg-accent/20">
-                 ম্যাপ দেখুন
-              </Link>
-              <Link to="/task-complete" className="py-2.5 bg-success text-white text-center font-bold rounded-lg text-sm active:bg-success/90">
-                 ভিজিট সম্পন্ন
-              </Link>
-           </div>
-        </div>
+        {visitPlan.map((action, idx) => {
+           const dealer = pendingDealers.find(d => d.id === action.dealerId);
+           if (!dealer) return null;
 
-        {/* Pending Task 2 */}
-        <div className="bg-white border-l-8 border-l-danger border-y-2 border-r-2 border-border rounded-xl p-4 shadow-sm flex flex-col gap-3">
-           <div className="flex justify-between items-start">
-             <div>
-               <h3 className="font-bold text-xl leading-tight">Prime Building</h3>
-               <p className="text-sm font-bold text-danger mt-1 flex items-center gap-1">
-                 <Clock className="w-4 h-4"/> ৳7.5 লাখ বাকি (65 দিন)
-               </p>
+           const isHighPriority = action.priorityScore > 70;
+           const borderColor = isHighPriority ? 'border-l-danger' : 'border-l-warning';
+           const textColor = isHighPriority ? 'text-danger' : 'text-warning';
+
+           return (
+             <div key={idx} className={`bg-white border-l-8 ${borderColor} border-y-2 border-r-2 border-border rounded-xl p-4 shadow-sm flex flex-col gap-3`}>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-bold text-xl leading-tight">{dealer.name}</h3>
+                    <p className={`text-sm font-bold ${textColor} mt-1 flex items-center gap-1`}>
+                      <Clock className="w-4 h-4"/> 
+                      {dealer.dues.total > 0 
+                        ? `৳${(dealer.dues.total / 100000).toFixed(1)} লাখ বাকি (${dealer.dues.oldestDueDays} দিন)` 
+                        : action.reason}
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                   <Link to="/so/map" className="py-2.5 bg-accent/10 text-accent text-center font-bold rounded-lg text-sm active:bg-accent/20">
+                      ম্যাপ দেখুন
+                   </Link>
+                   <Link to="/so" className="py-2.5 bg-success text-white text-center font-bold rounded-lg text-sm active:bg-success/90">
+                      ভিজিট সম্পন্ন
+                   </Link>
+                </div>
              </div>
-           </div>
-           <div className="grid grid-cols-2 gap-2 mt-2">
-              <Link to="/map" className="py-2.5 bg-accent/10 text-accent text-center font-bold rounded-lg text-sm active:bg-accent/20">
-                 ম্যাপ দেখুন
-              </Link>
-              <Link to="/task-complete" className="py-2.5 bg-success text-white text-center font-bold rounded-lg text-sm active:bg-success/90">
-                 ভিজিট সম্পন্ন
-              </Link>
-           </div>
-        </div>
+           );
+        })}
 
         <h3 className="font-extrabold text-text-muted uppercase text-sm mt-8 mb-2 tracking-wide">সম্পন্ন হওয়া কাজ</h3>
 
-        {/* Completed Task 1 */}
+        {/* Completed Task 1 (Mock Data) */}
         <div className="bg-white border-2 border-success/30 rounded-xl p-4 shadow-sm flex items-center justify-between opacity-80">
            <div>
              <h3 className="font-bold text-lg leading-tight line-through decoration-2 decoration-success/50">Apex MegaMart</h3>
