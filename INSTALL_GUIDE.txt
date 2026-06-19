@@ -1,0 +1,80 @@
+============================================================
+ELITE GROUP MARKETING DASHBOARD - INSTALLATION & SETUP GUIDE
+============================================================
+
+This guide explains how to install, configure, and run the Elite Group Marketing Dashboard on any machine (Windows, Mac, or Linux).
+
+------------------------------------------------------------
+1. PREREQUISITES
+------------------------------------------------------------
+Before you begin, ensure you have the following installed on your system:
+
+- Node.js (v18.0.0 or higher recommended)
+  Download from: https://nodejs.org/
+  To verify installation, open your terminal/command prompt and run:
+  node -v
+  npm -v
+
+- Git (to clone and pull updates)
+  Download from: https://git-scm.com/downloads
+
+------------------------------------------------------------
+2. CLONING THE REPOSITORY
+------------------------------------------------------------
+Open your terminal or command prompt and clone the repository:
+
+git clone https://github.com/Orce946/Marketing-dashboard.git
+cd Marketing-dashboard
+
+(If you already have the folder, just navigate to it and run `git pull` to ensure you have the latest code).
+
+------------------------------------------------------------
+3. INSTALLATION
+------------------------------------------------------------
+Once inside the project directory, install all required dependencies by running:
+
+npm install
+
+This will read the package.json file and download everything needed (React, Vite, Recharts, Leaflet, Tailwind CSS, etc.) into the node_modules folder.
+
+------------------------------------------------------------
+4. CONFIGURATION (.env file)
+------------------------------------------------------------
+The project comes with a pre-configured `.env` file for your convenience. It should look like this:
+
+VITE_PORT=3000
+VITE_HOST=0.0.0.0
+VITE_API_BASE_URL=/api
+
+What these do:
+- VITE_PORT: Forces the application to run on port 3000.
+- VITE_HOST: Exposes the server to your local network (0.0.0.0) so friends or colleagues on the same Wi-Fi can view the app from their own devices.
+
+If the file does not exist for some reason, create a file named `.env` in the root folder and paste those three lines into it.
+
+------------------------------------------------------------
+5. RUNNING THE APPLICATION
+------------------------------------------------------------
+To start the development server, simply run:
+
+npm run dev
+
+You should see output similar to this:
+  VITE v5.x.x  ready in 250 ms
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://192.168.1.X:3000/
+
+------------------------------------------------------------
+6. ACCESSING THE APP
+------------------------------------------------------------
+- On your own computer: Open your web browser and go to `http://localhost:3000`
+- On a friend/colleague's computer (on the same Wi-Fi): Find the "Network" IP address from the terminal output (e.g., `http://192.168.1.55:3000`) and enter that into their web browser.
+
+------------------------------------------------------------
+7. BUILDING FOR PRODUCTION
+------------------------------------------------------------
+When you are ready to deploy the app to a live web server (like Vercel, Netlify, or your own server), run:
+
+npm run build
+
+This will compile and compress the code into a `dist/` folder which is ready for production hosting.
