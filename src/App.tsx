@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import RoleSelection from './pages/RoleSelection';
 import SOLayout from './layouts/SOLayout';
 import ManagerLayout from './layouts/ManagerLayout';
 import SOHome from './pages/SO/SOHome';
@@ -19,7 +20,8 @@ import ManagerSettings from './pages/Manager/ManagerSettings';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<SOLayout />}>
+      <Route path="/" element={<RoleSelection />} />
+      <Route path="/so" element={<SOLayout />}>
         <Route index element={<SOHome />} />
         <Route path="attendance" element={<SOAttendance />} />
         <Route path="todo" element={<SOTodo />} />

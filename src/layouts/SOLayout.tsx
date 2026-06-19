@@ -35,13 +35,13 @@ const SOLayout: React.FC = () => {
         </div>
 
         <div className="flex-grow overflow-y-auto py-6 px-4 space-y-2">
-           <SidebarItem to="/" icon={<Home className="w-5 h-5" />} label="হোম (Overview)" onClick={closeSidebar} />
-           <SidebarItem to="/attendance" icon={<Calendar className="w-5 h-5" />} label="হাজিরা (Attendance)" onClick={closeSidebar} />
-           <SidebarItem to="/todo" icon={<CheckSquare className="w-5 h-5" />} label="আজকের কাজ (To-Do)" onClick={closeSidebar} />
-           <SidebarItem to="/chatbot" icon={<Bot className="w-5 h-5" />} label="AI অ্যাসিস্ট্যান্ট" onClick={closeSidebar} />
-           <SidebarItem to="/map" icon={<MapPin className="w-5 h-5" />} label="রুট ম্যাপ (Map)" onClick={closeSidebar} />
-           <SidebarItem to="/reports" icon={<FileText className="w-5 h-5" />} label="রিপোর্ট (Reports)" onClick={closeSidebar} />
-           <SidebarItem to="/dealers" icon={<Users className="w-5 h-5" />} label="ডিলার লিস্ট (Dealers)" onClick={closeSidebar} />
+           <SidebarItem to="/so" icon={<Home className="w-5 h-5" />} label="হোম (Overview)" onClick={closeSidebar} />
+           <SidebarItem to="/so/attendance" icon={<Calendar className="w-5 h-5" />} label="হাজিরা (Attendance)" onClick={closeSidebar} />
+           <SidebarItem to="/so/todo" icon={<CheckSquare className="w-5 h-5" />} label="আজকের কাজ (To-Do)" onClick={closeSidebar} />
+           <SidebarItem to="/so/chatbot" icon={<Bot className="w-5 h-5" />} label="AI অ্যাসিস্ট্যান্ট" onClick={closeSidebar} />
+           <SidebarItem to="/so/map" icon={<MapPin className="w-5 h-5" />} label="রুট ম্যাপ (Map)" onClick={closeSidebar} />
+           <SidebarItem to="/so/reports" icon={<FileText className="w-5 h-5" />} label="রিপোর্ট (Reports)" onClick={closeSidebar} />
+           <SidebarItem to="/so/dealers" icon={<Users className="w-5 h-5" />} label="ডিলার লিস্ট (Dealers)" onClick={closeSidebar} />
         </div>
 
         <div className="p-5 border-t border-white/10">

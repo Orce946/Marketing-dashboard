@@ -1,67 +1,146 @@
-import React from 'react';
-import { Mail, Phone, MapPin, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Star, Bot, Target, ListChecks, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { salesOfficers, aiCoachingInsights, weeklyActionPoints } from '../../data/mockData';
 
 const ManagerTeam: React.FC = () => {
-  const team = [
-    { id: 'SO-01', name: 'Md. Faruk', role: 'Senior Sales Officer', region: 'Dhaka North', phone: '+880 1711-000001', rating: 4.8 },
-    { id: 'SO-02', name: 'Ahsan', role: 'Sales Officer', region: 'Dhaka South', phone: '+880 1711-000002', rating: 4.2 },
-    { id: 'SO-03', name: 'Kamrul', role: 'Sales Officer', region: 'Gazipur', phone: '+880 1711-000003', rating: 4.5 },
-    { id: 'SO-04', name: 'Hasan', role: 'Junior Officer', region: 'Narayanganj', phone: '+880 1711-000004', rating: 3.9 },
-    { id: 'SO-05', name: 'Rahim', role: 'Sales Officer', region: 'Savar', phone: '+880 1711-000005', rating: 4.1 },
-  ];
+  const [expandedSO, setExpandedSO] = useState<string | null>(null);
+
+  const toggleExpand = (id: string) => {
+    setExpandedSO(prev => prev === id ? null : id);
+  };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto pb-10">
        <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Team Directory</h2>
-            <p className="text-gray-500 dark:text-gray-400 mt-1 font-medium">Manage and contact your Sales Officers.</p>
+            <h2 className="text-2xl font-bold text-gray-900">Team Directory & Coaching</h2>
+            <p className="text-gray-500 mt-1 font-medium">Manage, evaluate, and skill-up your Sales Officers with AI Co-Pilot.</p>
           </div>
-          <button className="bg-gray-900 dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 px-4 py-2 rounded-lg font-bold transition-colors shadow-lg">
+          <button className="bg-gray-900 text-white hover:bg-gray-800 px-4 py-2 rounded-xl font-bold transition-colors shadow-sm">
             + Add New Officer
           </button>
        </div>
 
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {team.map(member => (
-             <div key={member.id} className="bg-white dark:bg-[#111827] border border-gray-200 dark:border-[#1F2937] rounded-2xl p-6 shadow-xl hover:border-blue-300 dark:hover:border-[#38BDF8]/50 transition-colors duration-300 group">
-                <div className="flex justify-between items-start mb-4">
-                   <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-[#1F2937] border-2 border-gray-300 dark:border-[#374151] flex items-center justify-center font-bold text-gray-800 dark:text-white group-hover:border-blue-500 dark:group-hover:border-[#38BDF8] transition-colors">
-                         {member.name.charAt(0)}
-                      </div>
-                      <div>
-                         <h3 className="font-extrabold text-lg text-gray-900 dark:text-white leading-tight">{member.name}</h3>
-                         <p className="text-xs text-blue-600 dark:text-[#38BDF8] font-bold mt-0.5">{member.role}</p>
-                      </div>
-                   </div>
-                   <div className="flex items-center gap-1 bg-yellow-100 dark:bg-[#FBBF24]/10 text-yellow-600 dark:text-[#FBBF24] px-2 py-1 rounded-md text-xs font-bold border border-yellow-200 dark:border-[#FBBF24]/20">
-                      <Star className="w-3 h-3 fill-current" /> {member.rating}
-                   </div>
-                </div>
+       <div className="grid grid-cols-1 gap-6">
+          {salesOfficers.map(member => {
+             const coaching = aiCoachingInsights.find(c => c.soId === member.id);
+             const actions = weeklyActionPoints.filter(a => a.soId === member.id);
+             const isExpanded = expandedSO === member.id;
 
-                <div className="space-y-3 mt-6">
-                   <div className="flex items-center gap-3 text-sm font-semibold text-gray-600 dark:text-gray-300">
-                      <MapPin className="w-4 h-4 text-gray-400 dark:text-gray-500" /> {member.region}
-                   </div>
-                   <div className="flex items-center gap-3 text-sm font-semibold text-gray-600 dark:text-gray-300">
-                      <Phone className="w-4 h-4 text-gray-400 dark:text-gray-500" /> {member.phone}
-                   </div>
-                   <div className="flex items-center gap-3 text-sm font-semibold text-gray-600 dark:text-gray-300">
-                      <Mail className="w-4 h-4 text-gray-400 dark:text-gray-500" /> {member.name.toLowerCase().replace(' ', '.')}@elitegroup.bd
-                   </div>
-                </div>
+             return (
+               <div key={member.id} className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-300">
+                  
+                  {/* Header Row */}
+                  <div className="p-6 flex flex-wrap gap-4 justify-between items-center bg-white cursor-pointer hover:bg-gray-50 transition-colors" onClick={() => toggleExpand(member.id)}>
+                     <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-full bg-blue-100 border-2 border-blue-200 flex items-center justify-center font-bold text-blue-700 text-xl">
+                           {member.name.charAt(0)}
+                        </div>
+                        <div>
+                           <h3 className="font-extrabold text-lg text-gray-900 leading-tight flex items-center gap-2">
+                             {member.name}
+                             <span className="flex items-center gap-1 bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-md text-xs font-bold border border-yellow-200">
+                                <Star className="w-3 h-3 fill-current" /> 4.8
+                             </span>
+                           </h3>
+                           <div className="text-sm text-gray-500 font-medium mt-1 flex items-center gap-4">
+                              <span className="flex items-center gap-1"><MapPin className="w-4 h-4"/> {member.dealersCount} Dealers</span>
+                              <span className="flex items-center gap-1"><Phone className="w-4 h-4"/> +880 1711-00000X</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="flex items-center gap-6">
+                        <div className="text-right">
+                           <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">YTD Sales</p>
+                           <p className="font-extrabold text-green-600">${member.totalSales.toLocaleString()}</p>
+                        </div>
+                        <div className="text-right">
+                           <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Total Dues</p>
+                           <p className="font-extrabold text-red-600">${member.totalDues.toLocaleString()}</p>
+                        </div>
+                        <button className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
+                           {isExpanded ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
+                        </button>
+                     </div>
+                  </div>
 
-                <div className="mt-6 flex gap-2">
-                   <button className="flex-1 py-2 bg-gray-100 dark:bg-[#1F2937] hover:bg-gray-200 dark:hover:bg-[#374151] text-gray-800 dark:text-white text-sm font-bold rounded-lg transition-colors border border-gray-200 dark:border-transparent">
-                     View Profile
-                   </button>
-                   <button className="flex-1 py-2 bg-blue-50 dark:bg-[#38BDF8]/10 hover:bg-blue-100 dark:hover:bg-[#38BDF8]/20 text-blue-600 dark:text-[#38BDF8] text-sm font-bold rounded-lg transition-colors border border-blue-200 dark:border-[#38BDF8]/20">
-                     Message
-                   </button>
-                </div>
-             </div>
-          ))}
+                  {/* Expanded Coaching & Actions Panel */}
+                  {isExpanded && (
+                    <div className="p-6 border-t border-gray-100 bg-gray-50/50 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                       
+                       {/* AI Coaching Panel */}
+                       <div className="bg-white border border-blue-100 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-[60px] opacity-10 pointer-events-none"></div>
+                          
+                          <h4 className="font-bold text-gray-900 flex items-center gap-2 mb-4">
+                             <Bot className="w-5 h-5 text-blue-600" /> Co-Pilot Skill-Up Insights
+                          </h4>
+                          
+                          {coaching ? (
+                            <div className="space-y-4 relative z-10">
+                               <div className="grid grid-cols-2 gap-4">
+                                  <div>
+                                     <p className="text-xs font-bold text-emerald-600 uppercase mb-2">Strengths</p>
+                                     <ul className="space-y-1">
+                                        {coaching.strengths.map((s, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5"/> {s}</li>)}
+                                     </ul>
+                                  </div>
+                                  <div>
+                                     <p className="text-xs font-bold text-red-600 uppercase mb-2">Areas for Growth</p>
+                                     <ul className="space-y-1">
+                                        {coaching.weaknesses.map((w, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><Target className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5"/> {w}</li>)}
+                                     </ul>
+                                  </div>
+                               </div>
+                               
+                               <div className="bg-blue-50 rounded-xl p-3 border border-blue-100 mt-2">
+                                  <p className="text-xs font-bold text-blue-800 uppercase mb-1">Recommended Coaching Action</p>
+                                  <p className="text-sm text-blue-900 font-medium">{coaching.suggestedActions[0]}</p>
+                               </div>
+
+                               <div className="bg-gray-100 rounded-xl p-3 border border-gray-200 mt-2">
+                                  <p className="text-xs font-bold text-gray-600 uppercase mb-1">Suggested Script (Share with SO)</p>
+                                  <p className="text-sm text-gray-800 italic">"{coaching.scriptRecommendation}"</p>
+                               </div>
+                               
+                               <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors mt-2 text-sm">
+                                  Send Script to SO
+                               </button>
+                            </div>
+                          ) : (
+                             <p className="text-sm text-gray-500 italic">Not enough data to generate insights yet.</p>
+                          )}
+                       </div>
+
+                       {/* Action Points / Follow ups */}
+                       <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                          <div className="flex justify-between items-center mb-4">
+                             <h4 className="font-bold text-gray-900 flex items-center gap-2">
+                                <ListChecks className="w-5 h-5 text-emerald-600" /> Weekly Action Points
+                             </h4>
+                             <button className="text-xs font-bold text-blue-600 hover:underline">Add Task</button>
+                          </div>
+                          
+                          <div className="space-y-3">
+                             {actions.length > 0 ? actions.map(act => (
+                               <div key={act.id} className="flex items-start gap-3 p-3 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+                                  <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                                  <div className="flex-grow">
+                                     <p className="text-sm font-bold text-gray-900">{act.task}</p>
+                                     <p className="text-xs text-red-500 font-bold mt-0.5">Due: {act.dueDate}</p>
+                                  </div>
+                               </div>
+                             )) : (
+                               <p className="text-sm text-gray-500 italic">No action points assigned.</p>
+                             )}
+                          </div>
+                       </div>
+
+                    </div>
+                  )}
+               </div>
+             );
+          })}
        </div>
     </div>
   );
