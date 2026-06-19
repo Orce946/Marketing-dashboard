@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
 @theme {
   --color-background-main: #FFFFFF; /* Pure white for glare */
   --color-background-offwhite: #F4F6F8;
