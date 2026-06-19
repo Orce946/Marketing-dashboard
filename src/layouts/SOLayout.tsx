@@ -100,7 +100,8 @@ const SOLayout: React.FC = () => {
 
         {/* Top Header - Inside the Blue Background */}
         {location.pathname === '/so' && (
-          <header className="flex-shrink-0 pt-4 pb-2 px-4 flex items-center justify-between relative z-50 text-white">
+          <header className="flex-shrink-0 pt-4 pb-2 px-4 flex flex-col relative z-50 text-white">
+            <div className="flex items-center justify-between w-full">
           
           {/* Left: Account button with avatar and name */}
           <div className="relative" ref={accountRef}>
@@ -239,6 +240,7 @@ const SOLayout: React.FC = () => {
 
 
 
+          </div>
           </div>
             {/* Clock and Date in Header */}
             <div className="w-full text-center mt-6">
