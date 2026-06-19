@@ -7,11 +7,28 @@ const SOLayout: React.FC = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentTime, setCurrentTime] = useState(new Date());
   const navigate = useNavigate();
   const location = useLocation();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
+
+  // Update clock every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  };
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -75,15 +92,15 @@ const SOLayout: React.FC = () => {
   return (
     <div className="fixed inset-0 flex overflow-hidden bg-background-offwhite font-sans text-text-primary">
 
-
       {/* Main Content Area */}
-      <div className="flex flex-col flex-grow w-full overflow-hidden relative bg-gray-50">
+      <div className="flex flex-col flex-grow w-full overflow-hidden relative bg-white">
         
         {/* Blue Upper Background (bKash style) */}
-        <div className="absolute top-0 left-0 w-full h-[25vh] bg-accent z-0 pb-10"></div>
+        {location.pathname === '/so' && <div className="absolute top-0 left-0 w-full h-[30vh] bg-accent z-0 pb-10"></div>}
 
         {/* Top Header - Inside the Blue Background */}
-        <header className="flex-shrink-0 pt-4 pb-2 px-4 flex items-center justify-between relative z-50 text-white">
+        {location.pathname === '/so' && (
+          <header className="flex-shrink-0 pt-4 pb-2 px-4 flex items-center justify-between relative z-50 text-white">
           
           {/* Left: Account button with avatar and name */}
           <div className="relative" ref={accountRef}>
@@ -282,12 +299,20 @@ const SOLayout: React.FC = () => {
                 )}
               </div>
             </div>
-          </>
+
+            {/* Clock and Date in Header */}
+            <div className="w-full text-center mt-6">
+              <h2 className="text-4xl font-extrabold font-mono tracking-tighter drop-shadow-md">
+                {formatTime(currentTime)}
+              </h2>
+              <p className="text-white/90 font-bold mt-1 drop-shadow-sm">{formatDate(currentTime)}</p>
+            </div>
+          </header>
         )}
 
         {/* Middle Div: Scrollable Main Workspace overlapping the blue background */}
-        <main className="flex-grow overflow-y-auto z-10 relative flex flex-col mx-0 pb-16 pt-2">
-          <div className="flex-grow bg-white rounded-t-3xl mt-8 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] relative">
+        <main className={`flex-grow overflow-y-auto z-10 relative flex flex-col mx-0 pb-16 ${location.pathname === '/so' ? 'pt-2' : ''}`}>
+          <div className={`flex-grow bg-white relative ${location.pathname === '/so' ? 'rounded-t-3xl mt-8 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]' : ''}`}>
             <Outlet />
           </div>
         </main>
