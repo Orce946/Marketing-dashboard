@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Map as MapIcon, AlertTriangle, BarChart3, Users, Settings, LogOut, Sun, Moon, Menu, X } from 'lucide-react';
 
 export const ThemeContext = createContext({ isDarkMode: false, toggleTheme: () => {} });
@@ -8,6 +8,7 @@ export const useTheme = () => useContext(ThemeContext);
 const ManagerLayout: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   const closeSidebar = () => setIsSidebarOpen(false);
@@ -64,7 +65,7 @@ const ManagerLayout: React.FC = () => {
                         <Settings className="w-5 h-5" />
                         Settings
                      </NavLink>
-                     <button className="flex items-center gap-3 w-full p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1F2937] hover:text-gray-900 dark:hover:text-white transition-colors font-semibold">
+                     <button onClick={() => navigate('/')} className="flex items-center gap-3 w-full p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1F2937] hover:text-gray-900 dark:hover:text-white transition-colors font-semibold">
                         <LogOut className="w-5 h-5" />
                         Logout
                      </button>

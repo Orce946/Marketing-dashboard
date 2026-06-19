@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { Home, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, Menu, X, LogOut } from 'lucide-react';
 
 const SOLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   const closeSidebar = () => setIsSidebarOpen(false);
 
@@ -45,7 +46,7 @@ const SOLayout: React.FC = () => {
         </div>
 
         <div className="p-5 border-t border-white/10">
-           <button className="flex items-center gap-3 w-full p-3 rounded-xl text-white/80 hover:bg-white/10 hover:text-white transition-colors font-bold">
+           <button onClick={() => navigate('/')} className="flex items-center gap-3 w-full p-3 rounded-xl text-white/80 hover:bg-white/10 hover:text-white transition-colors font-bold">
               <LogOut className="w-5 h-5" />
               লগ আউট
            </button>
