@@ -1,0 +1,153 @@
+import React, { useState } from 'react';
+import { Camera, Save, ArrowLeft, FileText, DollarSign, PenTool } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+const SOTaskCompletion: React.FC = () => {
+  const navigate = useNavigate();
+  const [status, setStatus] = useState<string | null>(null);
+  const [collectionAmount, setCollectionAmount] = useState('');
+  const [orderDetails, setOrderDetails] = useState('');
+  const [notes, setNotes] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate submission
+    navigate('/todo');
+  };
+
+  return (
+    <div className="flex flex-col h-full bg-background-offwhite">
+      
+      {/* Header */}
+      <div className="flex-shrink-0 bg-white border-b-2 border-border p-4 flex items-center gap-4 sticky top-0 z-10 shadow-sm">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="w-10 h-10 rounded-full border-2 border-border flex items-center justify-center active:bg-gray-100 transition-colors"
+        >
+           <ArrowLeft className="w-6 h-6" />
+        </button>
+        <div>
+          <h2 className="text-xl font-extrabold text-text-primary leading-tight">ভিজিট রিপোর্ট (Task Completion)</h2>
+          <p className="text-xs font-bold text-accent">Rahim Store</p>
+        </div>
+      </div>
+
+      <div className="flex-grow overflow-y-auto p-4 pb-24">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          
+          {/* Quick Status Selection */}
+          <div className="bg-white border-2 border-border rounded-2xl p-5 shadow-sm">
+             <h3 className="font-extrabold text-lg mb-4 text-text-primary">ভিজিটের প্রধান ফলাফল কী? <span className="text-danger">*</span></h3>
+             <div className="grid grid-cols-2 gap-3">
+                <button 
+                   type="button"
+                   onClick={() => setStatus('success')}
+                   className={`py-3 px-2 border-2 rounded-xl font-bold text-sm transition-all ${status === 'success' ? 'border-success bg-success/10 text-success' : 'border-border text-text-secondary active:bg-gray-50'}`}
+                >
+                   অর্ডার/পেমেন্ট পেয়েছি
+                </button>
+                <button 
+                   type="button"
+                   onClick={() => setStatus('later')}
+                   className={`py-3 px-2 border-2 rounded-xl font-bold text-sm transition-all ${status === 'later' ? 'border-warning bg-warning/10 text-warning' : 'border-border text-text-secondary active:bg-gray-50'}`}
+                >
+                   পরে দেবে বলেছে
+                </button>
+                <button 
+                   type="button"
+                   onClick={() => setStatus('closed')}
+                   className={`py-3 px-2 border-2 rounded-xl font-bold text-sm transition-all ${status === 'closed' ? 'border-danger bg-danger/10 text-danger' : 'border-border text-text-secondary active:bg-gray-50'}`}
+                >
+                   দোকান বন্ধ
+                </button>
+                <button 
+                   type="button"
+                   onClick={() => setStatus('absent')}
+                   className={`py-3 px-2 border-2 rounded-xl font-bold text-sm transition-all ${status === 'absent' ? 'border-info bg-info/10 text-info' : 'border-border text-text-secondary active:bg-gray-50'}`}
+                >
+                   মালিক নেই
+                </button>
+             </div>
+          </div>
+
+          {/* Detailed Manual Input Fields */}
+          <div className="bg-white border-2 border-border rounded-2xl p-5 shadow-sm space-y-5">
+             <h3 className="font-extrabold text-lg text-text-primary flex items-center gap-2">
+                <PenTool className="w-5 h-5 text-accent" />
+                বিস্তারিত তথ্য দিন
+             </h3>
+
+             {/* Collection Amount */}
+             <div>
+                <label className="block text-sm font-bold text-text-secondary mb-2 flex items-center gap-1">
+                   <DollarSign className="w-4 h-4 text-success" />
+                   কালেকশন পরিমাণ (৳)
+                </label>
+                <input 
+                  type="number" 
+                  value={collectionAmount}
+                  onChange={(e) => setCollectionAmount(e.target.value)}
+                  placeholder="যেমন: 5000"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors"
+                />
+             </div>
+
+             {/* New Order Details */}
+             <div>
+                <label className="block text-sm font-bold text-text-secondary mb-2 flex items-center gap-1">
+                   <FileText className="w-4 h-4 text-info" />
+                   নতুন অর্ডারের বিবরণ
+                </label>
+                <textarea 
+                  value={orderDetails}
+                  onChange={(e) => setOrderDetails(e.target.value)}
+                  placeholder="কোন প্রোডাক্ট, কত পিস..."
+                  rows={3}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors resize-none"
+                />
+             </div>
+
+             {/* General Notes */}
+             <div>
+                <label className="block text-sm font-bold text-text-secondary mb-2 flex items-center gap-1">
+                   <FileText className="w-4 h-4 text-warning" />
+                   সাধারণ মন্তব্য / ফিডব্যাক
+                </label>
+                <textarea 
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="দোকানদারের কোন অভিযোগ বা পরামর্শ থাকলে লিখুন..."
+                  rows={3}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors resize-none"
+                />
+             </div>
+          </div>
+
+          {/* Photo Upload */}
+          <div className="bg-white border-2 border-border rounded-2xl p-5 shadow-sm">
+             <h3 className="font-extrabold text-lg mb-4 text-text-primary">দোকানের ছবি (প্রমাণ)</h3>
+             <button type="button" className="w-full h-32 border-4 border-dashed border-border rounded-xl flex flex-col items-center justify-center text-text-muted hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                <Camera className="w-10 h-10 mb-2" />
+                <span className="font-bold text-sm">ক্যামেরা চালু করুন</span>
+             </button>
+          </div>
+
+        </form>
+      </div>
+
+      {/* Fixed Bottom Submit Button */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-border shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-20 pb-safe">
+         <button 
+            onClick={handleSubmit}
+            className="w-full py-4 bg-accent text-white font-extrabold rounded-2xl shadow-lg flex items-center justify-center gap-2 text-lg active:scale-95 transition-transform"
+         >
+            <Save className="w-6 h-6" />
+            রিপোর্ট সাবমিট করুন
+         </button>
+      </div>
+
+    </div>
+  );
+};
+
+export default SOTaskCompletion;
