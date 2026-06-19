@@ -93,7 +93,7 @@ const SOLayout: React.FC = () => {
 
         {/* Global Floating Chatbot Button */}
         <NavLink 
-          to="/chatbot"
+          to="/so/chatbot"
           className="absolute bottom-6 right-6 w-16 h-16 bg-accent text-white rounded-full flex items-center justify-center shadow-lg hover:bg-accent-hover transition-colors z-30"
         >
           <Bot className="w-8 h-8" />

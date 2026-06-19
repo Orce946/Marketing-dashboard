@@ -122,7 +122,7 @@ const SOHome: React.FC = () => {
                <p className="text-text-muted text-sm font-medium">04h 52m (08:45 AM থেকে)</p>
             </div>
          </div>
-         <Link to="/attendance" className="px-4 py-2 bg-text-primary text-white font-bold rounded-lg text-sm active:bg-text-secondary transition-colors">
+         <Link to="/so/attendance" className="px-4 py-2 bg-text-primary text-white font-bold rounded-lg text-sm active:bg-text-secondary transition-colors">
             হাজিরা দেখুন
          </Link>
       </div>
