@@ -57,7 +57,7 @@ const SOTodo: React.FC = () => {
                    <Link to="/so/map" className="py-2.5 bg-accent/10 text-accent text-center font-bold rounded-lg text-sm active:bg-accent/20">
                       ম্যাপ দেখুন
                    </Link>
-                   <Link to="/so" className="py-2.5 bg-success text-white text-center font-bold rounded-lg text-sm active:bg-success/90">
+                   <Link to="/so/task-complete" className="py-2.5 bg-success text-white text-center font-bold rounded-lg text-sm active:bg-success/90">
                       ভিজিট সম্পন্ন
                    </Link>
                 </div>
