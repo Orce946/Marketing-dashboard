@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { TrendingUp, MapPin, DollarSign, Clock, ArrowRight, Navigation, Phone, Mail } from 'lucide-react';
+import { TrendingUp, MapPin, DollarSign, ArrowRight, Navigation, Phone, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { dealers, getRecommendedVisitPlan, salesOfficers } from '../../data/mockData';
 import { DealerMap } from '../../components/Map/DealerMap';

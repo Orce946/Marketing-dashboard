@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Users, AlertTriangle, DollarSign, ArrowRight, TrendingUp, Target, Activity } from 'lucide-react';
+import { Users, AlertTriangle, DollarSign, TrendingUp, Target, Activity } from 'lucide-react';
 import { MetricCard } from '../../components/ui/MetricCard';
 import { dealers, salesOfficers, getAllAlerts, historicalSalesData, getHighPotentialCustomers } from '../../data/mockData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';

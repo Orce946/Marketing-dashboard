@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Star, Bot, Target, ListChecks, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Phone, MapPin, Star, Bot, Target, ListChecks, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 import { salesOfficers, aiCoachingInsights, weeklyActionPoints } from '../../data/mockData';
 
 const ManagerTeam: React.FC = () => {

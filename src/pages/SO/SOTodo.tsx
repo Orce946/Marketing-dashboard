@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { CheckCircle, Clock, ArrowLeft, Navigation } from 'lucide-react';
+import { CheckCircle, Clock, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { dealers, getRecommendedVisitPlan } from '../../data/mockData';
 

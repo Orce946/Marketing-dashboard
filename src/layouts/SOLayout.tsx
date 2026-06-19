@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
-import { Home, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, Menu, X, LogOut, Search, LayoutGrid, User, Settings, HelpCircle, TrendingUp, Clock, Phone } from 'lucide-react';
+import { Home, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, X, LogOut, Search, LayoutGrid, User, Settings, HelpCircle } from 'lucide-react';
 
 const SOLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
