@@ -281,13 +281,13 @@ export const weeklyActionPoints: ActionPoint[] = [
 ];
 
 export const historicalSalesData = [
-  { name: 'Mon', sales: 4000, target: 2400 },
-  { name: 'Tue', sales: 3000, target: 2400 },
-  { name: 'Wed', sales: 2000, target: 2400 },
-  { name: 'Thu', sales: 2780, target: 2400 },
-  { name: 'Fri', sales: 1890, target: 2400 },
-  { name: 'Sat', sales: 2390, target: 2400 },
-  { name: 'Sun', sales: 3490, target: 2400 },
+  { name: 'Mon', sales: 4000, target: 2400, collection: 1200 },
+  { name: 'Tue', sales: 3000, target: 2400, collection: 1800 },
+  { name: 'Wed', sales: 2000, target: 2400, collection: 2100 },
+  { name: 'Thu', sales: 2780, target: 2400, collection: 900 },
+  { name: 'Fri', sales: 1890, target: 2400, collection: 3000 },
+  { name: 'Sat', sales: 2390, target: 2400, collection: 1500 },
+  { name: 'Sun', sales: 3490, target: 2400, collection: 2800 },
 ];
 
 export const getHighPotentialCustomers = (): Dealer[] => {

@@ -50,14 +50,14 @@ const ManagerHome: React.FC = () => {
 
        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          {/* Daily Sales Performance Chart */}
+          {/* Daily Sales & Collection Performance Chart */}
           <div className="lg:col-span-2 bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col">
              <div className="flex justify-between items-start mb-6">
                  <div>
                     <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-blue-600"/> Daily Sales Performance
+                      <TrendingUp className="w-5 h-5 text-blue-600"/> Daily Sales & Collection Performance
                     </h2>
-                    <p className="text-sm text-gray-500 mt-1">Actual vs Target Sales over the last 7 days</p>
+                    <p className="text-sm text-gray-500 mt-1">Actual vs Target Sales, and Dues Collected over the last 7 days</p>
                  </div>
              </div>
              <div className="flex-grow w-full h-[300px]">
@@ -68,8 +68,9 @@ const ManagerHome: React.FC = () => {
                     <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} tickFormatter={(val) => `$${val}`} />
                     <Tooltip cursor={{ fill: '#F3F4F6' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                     <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
-                    <Bar dataKey="sales" name="Actual Sales" fill="#3B82F6" radius={[4, 4, 0, 0]} barSize={24} />
-                    <Bar dataKey="target" name="Target Sales" fill="#93C5FD" radius={[4, 4, 0, 0]} barSize={24} />
+                    <Bar dataKey="sales" name="Actual Sales" fill="#3B82F6" radius={[4, 4, 0, 0]} barSize={16} />
+                    <Bar dataKey="target" name="Target Sales" fill="#93C5FD" radius={[4, 4, 0, 0]} barSize={16} />
+                    <Bar dataKey="collection" name="Dues Collected" fill="#10B981" radius={[4, 4, 0, 0]} barSize={16} />
                   </BarChart>
                 </ResponsiveContainer>
              </div>

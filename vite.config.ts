@@ -7,8 +7,8 @@ export default defineConfig(({ mode }) => {
   
   return {
     server: {
-      port: parseInt(env.PORT || '3000'),
-      host: true, // Listens on all local IPs (0.0.0.0) so friends on the network can access
+      port: parseInt(env.VITE_PORT || env.PORT || '3000'),
+      host: env.VITE_HOST || env.HOST || true, // Defaults to true (0.0.0.0) if not set
       strictPort: false,
     },
     plugins: [
