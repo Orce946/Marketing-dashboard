@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
-import { Home, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, X, LogOut, Search, LayoutGrid, User, Settings, HelpCircle } from 'lucide-react';
+import { Home, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, X, LogOut, Search, User, Settings, HelpCircle } from 'lucide-react';
 
 const SOLayout: React.FC = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -13,8 +12,6 @@ const SOLayout: React.FC = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
-
-  const closeSidebar = () => setIsSidebarOpen(false);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -76,49 +73,8 @@ const SOLayout: React.FC = () => {
   const unreadCount = notifications.filter(n => n.unread).length;
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background-offwhite font-sans text-text-primary relative">
-      
-      {/* Sidebar Overlay for Mobile */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 transition-opacity"
-          onClick={closeSidebar}
-        ></div>
-      )}
+    <div className="fixed inset-0 flex overflow-hidden bg-background-offwhite font-sans text-text-primary">
 
-      {/* Left Slide Bar (Sidebar) */}
-      <aside 
-        className={`fixed inset-y-0 left-0 w-72 bg-background-sidebar text-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div className="p-5 flex justify-between items-center border-b border-white/10">
-           <div>
-             <h2 className="text-xl font-extrabold tracking-tight">ELITE GROUP</h2>
-             <p className="text-sm font-medium text-white/60">Sales Officer Portal</p>
-           </div>
-           <button onClick={closeSidebar} className="p-2 rounded-full hover:bg-white/10 text-white">
-             <X className="w-6 h-6" />
-           </button>
-        </div>
-
-        <div className="flex-grow overflow-y-auto py-6 px-4 space-y-2">
-           <SidebarItem to="/so" icon={<Home className="w-5 h-5" />} label="হোম (Overview)" onClick={closeSidebar} />
-           <SidebarItem to="/so/attendance" icon={<Calendar className="w-5 h-5" />} label="হাজিরা (Attendance)" onClick={closeSidebar} />
-           <SidebarItem to="/so/todo" icon={<CheckSquare className="w-5 h-5" />} label="আজকের কাজ (To-Do)" onClick={closeSidebar} />
-           <SidebarItem to="/so/chatbot" icon={<Bot className="w-5 h-5" />} label="AI অ্যাসিস্ট্যান্ট" onClick={closeSidebar} />
-           <SidebarItem to="/so/map" icon={<MapPin className="w-5 h-5" />} label="রুট ম্যাপ (Map)" onClick={closeSidebar} />
-           <SidebarItem to="/so/reports" icon={<FileText className="w-5 h-5" />} label="রিপোর্ট (Reports)" onClick={closeSidebar} />
-           <SidebarItem to="/so/dealers" icon={<Users className="w-5 h-5" />} label="ডিলার লিস্ট (Dealers)" onClick={closeSidebar} />
-        </div>
-
-        <div className="p-5 border-t border-white/10">
-           <button onClick={() => navigate('/')} className="flex items-center gap-3 w-full p-3 rounded-xl text-white/80 hover:bg-white/10 hover:text-white transition-colors font-bold">
-              <LogOut className="w-5 h-5" />
-              লগ আউট
-           </button>
-        </div>
-      </aside>
 
       {/* Main Content Area */}
       <div className="flex flex-col flex-grow w-full overflow-hidden relative bg-gray-50">
@@ -166,13 +122,13 @@ const SOLayout: React.FC = () => {
                 </div>
                 <div className="p-2">
                   <button 
-                    onClick={() => { setIsAccountOpen(false); navigate('/so'); }}
+                    onClick={() => { setIsAccountOpen(false); navigate('/so/profile'); }}
                     className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-text-secondary hover:bg-background-offwhite transition-colors"
                   >
                     <User className="w-4 h-4" /> প্রোফাইল দেখুন
                   </button>
                   <button 
-                    onClick={() => { setIsAccountOpen(false); navigate('/so/attendance'); }}
+                    onClick={() => { setIsAccountOpen(false); navigate('/so/settings'); }}
                     className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-text-secondary hover:bg-background-offwhite transition-colors"
                   >
                     <Settings className="w-4 h-4" /> সেটিংস
@@ -264,15 +220,7 @@ const SOLayout: React.FC = () => {
               )}
             </div>
 
-            {/* Grid Menu Button (opens sidebar) */}
-            <button 
-              onClick={() => { setIsSidebarOpen(true); setIsNotificationOpen(false); setIsAccountOpen(false); }}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-accent hover:bg-white/90 shadow-md transition-colors"
-              id="so-grid-menu-btn"
-              title="মেনু"
-            >
-              <LayoutGrid className="w-5 h-5" />
-            </button>
+
 
           </div>
         </header>

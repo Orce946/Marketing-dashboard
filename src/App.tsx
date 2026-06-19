@@ -10,6 +10,8 @@ import SOTodo from './pages/SO/SOTodo';
 import SOChatbot from './pages/SO/SOChatbot';
 import SODealerInputs from './pages/SO/SODealerInputs';
 import SOTaskCompletion from './pages/SO/SOTaskCompletion';
+import SOProfile from './pages/SO/SOProfile';
+import SOSettings from './pages/SO/SOSettings';
 import ManagerHome from './pages/Manager/ManagerHome';
 import ManagerLiveMap from './pages/Manager/ManagerLiveMap';
 import ManagerExceptions from './pages/Manager/ManagerExceptions';
@@ -30,6 +32,8 @@ function App() {
         <Route path="reports" element={<SOReports />} />
         <Route path="dealers" element={<SODealerInputs />} />
         <Route path="task-complete" element={<SOTaskCompletion />} />
+        <Route path="profile" element={<SOProfile />} />
+        <Route path="settings" element={<SOSettings />} />
       </Route>
       <Route path="/manager" element={<ManagerLayout />}>
          <Route index element={<ManagerHome />} />

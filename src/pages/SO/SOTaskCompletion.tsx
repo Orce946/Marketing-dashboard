@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Camera, Save, ArrowLeft, FileText, DollarSign, PenTool } from 'lucide-react';
+import { Camera, Save, ArrowLeft, FileText, DollarSign, PenTool, Package, Megaphone, Users, Calendar, AlertTriangle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SOTaskCompletion: React.FC = () => {
@@ -7,12 +7,18 @@ const SOTaskCompletion: React.FC = () => {
   const [status, setStatus] = useState<string | null>(null);
   const [collectionAmount, setCollectionAmount] = useState('');
   const [orderDetails, setOrderDetails] = useState('');
+  const [stockCount, setStockCount] = useState('');
+  const [bannerPlaced, setBannerPlaced] = useState(false);
+  const [campaignExplained, setCampaignExplained] = useState(false);
+  const [competitorInfo, setCompetitorInfo] = useState('');
+  const [dealerComplaints, setDealerComplaints] = useState('');
+  const [nextFollowUp, setNextFollowUp] = useState('');
   const [notes, setNotes] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate submission
-    navigate('/todo');
+    navigate('/so/todo');
   };
 
   return (
@@ -32,7 +38,7 @@ const SOTaskCompletion: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex-grow overflow-y-auto p-4 pb-24">
+      <div className="flex-grow p-4 pb-24">
         <form onSubmit={handleSubmit} className="space-y-6">
           
           {/* Quick Status Selection */}
@@ -70,14 +76,56 @@ const SOTaskCompletion: React.FC = () => {
              </div>
           </div>
 
-          {/* Detailed Manual Input Fields */}
+          {/* Current Stock Check */}
+          <div className="bg-white border-2 border-border rounded-2xl p-5 shadow-sm space-y-4">
+             <h3 className="font-extrabold text-lg text-text-primary flex items-center gap-2">
+                <Package className="w-5 h-5 text-accent" />
+                স্টক চেক (Stock Info)
+             </h3>
+             <div>
+                <label className="block text-sm font-bold text-text-secondary mb-2">এলিট প্রোডাক্টের বর্তমান স্টক (পিস/কার্টন)</label>
+                <input 
+                  type="text" 
+                  value={stockCount}
+                  onChange={(e) => setStockCount(e.target.value)}
+                  placeholder="যেমন: 20 পিস, 2 কার্টন"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors"
+                />
+             </div>
+          </div>
+
+          {/* Promotional Activity */}
+          <div className="bg-white border-2 border-border rounded-2xl p-5 shadow-sm space-y-4">
+             <h3 className="font-extrabold text-lg text-text-primary flex items-center gap-2">
+                <Megaphone className="w-5 h-5 text-accent" />
+                প্রোমোশনাল অ্যাক্টিভিটি
+             </h3>
+             <label className="flex items-center gap-3 p-3 border-2 border-border rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+               <input 
+                 type="checkbox" 
+                 checked={bannerPlaced}
+                 onChange={(e) => setBannerPlaced(e.target.checked)}
+                 className="w-5 h-5 accent-accent"
+               />
+               <span className="font-bold text-sm text-text-primary">নতুন ব্যানার/পোস্টার লাগানো হয়েছে</span>
+             </label>
+             <label className="flex items-center gap-3 p-3 border-2 border-border rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+               <input 
+                 type="checkbox" 
+                 checked={campaignExplained}
+                 onChange={(e) => setCampaignExplained(e.target.checked)}
+                 className="w-5 h-5 accent-accent"
+               />
+               <span className="font-bold text-sm text-text-primary">নতুন ক্যাম্পেইন সম্পর্কে বোঝানো হয়েছে</span>
+             </label>
+          </div>
+
+          {/* Financials & Order */}
           <div className="bg-white border-2 border-border rounded-2xl p-5 shadow-sm space-y-5">
              <h3 className="font-extrabold text-lg text-text-primary flex items-center gap-2">
                 <PenTool className="w-5 h-5 text-accent" />
-                বিস্তারিত তথ্য দিন
+                কালেকশন ও নতুন অর্ডার
              </h3>
-
-             {/* Collection Amount */}
              <div>
                 <label className="block text-sm font-bold text-text-secondary mb-2 flex items-center gap-1">
                    <DollarSign className="w-4 h-4 text-success" />
@@ -91,8 +139,6 @@ const SOTaskCompletion: React.FC = () => {
                   className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors"
                 />
              </div>
-
-             {/* New Order Details */}
              <div>
                 <label className="block text-sm font-bold text-text-secondary mb-2 flex items-center gap-1">
                    <FileText className="w-4 h-4 text-info" />
@@ -106,21 +152,51 @@ const SOTaskCompletion: React.FC = () => {
                   className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors resize-none"
                 />
              </div>
+          </div>
 
-             {/* General Notes */}
+          {/* Competitor & Feedback */}
+          <div className="bg-white border-2 border-border rounded-2xl p-5 shadow-sm space-y-5">
+             <h3 className="font-extrabold text-lg text-text-primary flex items-center gap-2">
+                <Users className="w-5 h-5 text-accent" />
+                কম্পিটিটর ও ফিডব্যাক
+             </h3>
              <div>
-                <label className="block text-sm font-bold text-text-secondary mb-2 flex items-center gap-1">
-                   <FileText className="w-4 h-4 text-warning" />
-                   সাধারণ মন্তব্য / ফিডব্যাক
-                </label>
+                <label className="block text-sm font-bold text-text-secondary mb-2">কম্পিটিটর ইনফরমেশন (অফার/ডিসকাউন্ট)</label>
                 <textarea 
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="দোকানদারের কোন অভিযোগ বা পরামর্শ থাকলে লিখুন..."
-                  rows={3}
+                  value={competitorInfo}
+                  onChange={(e) => setCompetitorInfo(e.target.value)}
+                  placeholder="অন্যান্য কোম্পানির কি অফার চলছে..."
+                  rows={2}
                   className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors resize-none"
                 />
              </div>
+             <div>
+                <label className="block text-sm font-bold text-text-secondary mb-2 flex items-center gap-1">
+                   <AlertTriangle className="w-4 h-4 text-warning" />
+                   ডিলারের কোনো অভিযোগ বা সমস্যা
+                </label>
+                <textarea 
+                  value={dealerComplaints}
+                  onChange={(e) => setDealerComplaints(e.target.value)}
+                  placeholder="ডেলিভারি সমস্যা, ড্যামেজ প্রোডাক্ট..."
+                  rows={2}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors resize-none"
+                />
+             </div>
+          </div>
+
+          {/* Next Follow-up Date */}
+          <div className="bg-white border-2 border-border rounded-2xl p-5 shadow-sm">
+             <h3 className="font-extrabold text-lg text-text-primary mb-4 flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-accent" />
+                পরবর্তী ভিজিট/ফলো-আপ
+             </h3>
+             <input 
+               type="date" 
+               value={nextFollowUp}
+               onChange={(e) => setNextFollowUp(e.target.value)}
+               className="w-full px-4 py-3 rounded-xl border-2 border-border font-bold text-text-primary focus:outline-none focus:border-accent transition-colors"
+             />
           </div>
 
           {/* Photo Upload */}
@@ -136,7 +212,7 @@ const SOTaskCompletion: React.FC = () => {
       </div>
 
       {/* Fixed Bottom Submit Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-border shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-20 pb-safe">
+      <div className="sticky bottom-0 left-0 right-0 p-4 bg-white border-t border-border shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-20 pb-safe mt-auto">
          <button 
             onClick={handleSubmit}
             className="w-full py-4 bg-accent text-white font-extrabold rounded-2xl shadow-lg flex items-center justify-center gap-2 text-lg active:scale-95 transition-transform"
