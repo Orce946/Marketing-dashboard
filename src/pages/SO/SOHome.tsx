@@ -28,7 +28,7 @@ const SOHome: React.FC = () => {
             <span className="text-text-primary font-extrabold text-sm">মাসিক পারফরম্যান্স</span>
             <span className="text-[10px] font-extrabold text-accent bg-accent/10 px-2 py-0.5 rounded-full uppercase tracking-wide">চলতি মাস</span>
          </div>
-         <div className="flex items-center justify-between">
+         <div className="flex items-center justify-between mb-3">
             <div>
                <p className="text-xs text-text-muted font-bold mb-0.5">মোট বিক্রি</p>
                <p className="text-lg font-black text-text-primary leading-tight">৳৪,৫০,০০০</p>
@@ -38,6 +38,10 @@ const SOHome: React.FC = () => {
                <p className="text-xs text-text-muted font-bold mb-0.5">টার্গেট পূরণ</p>
                <p className="text-lg font-black text-success leading-tight">৮২%</p>
             </div>
+         </div>
+         {/* Horizontal Bar Chart / Progress Bar */}
+         <div className="h-2 w-full bg-background-offwhite rounded-full overflow-hidden border border-border">
+            <div className="h-full bg-success rounded-full w-[82%]"></div>
          </div>
       </div>
 
