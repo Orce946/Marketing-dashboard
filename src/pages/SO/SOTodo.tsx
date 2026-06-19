@@ -67,6 +67,8 @@ const SOTodo: React.FC = () => {
 
       <div className="flex-grow space-y-4">
         
+        <h3 className="font-extrabold text-text-muted uppercase text-sm mb-2 tracking-wide">বাকি থাকা কাজ</h3>
+
         {visitPlan.map((action, idx) => {
            const dealer = pendingDealers.find(d => d.id === action.dealerId);
            if (!dealer) return null;
