@@ -286,8 +286,8 @@ const SOLayout: React.FC = () => {
         )}
 
         {/* Middle Div: Scrollable Main Workspace overlapping the blue background */}
-        <main className="flex-grow overflow-y-auto z-10 mt-6 bg-white rounded-t-3xl shadow-[0_-4px_10px_rgba(0,0,0,0.05)] relative flex flex-col mx-0 pb-16">
-          <div className="flex-grow">
+        <main className="flex-grow overflow-y-auto z-10 relative flex flex-col mx-0 pb-16 pt-2">
+          <div className="flex-grow bg-white rounded-t-3xl mt-8 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] relative">
             <Outlet />
           </div>
         </main>

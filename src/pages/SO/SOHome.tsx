@@ -20,23 +20,24 @@ const SOHome: React.FC = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto w-full space-y-6">
+    <div className="max-w-lg mx-auto w-full space-y-6 px-4">
       
-      {/* Daily Target Summary (Now inside the overlapping white div) */}
-      <div className="bg-white border-2 border-border rounded-2xl p-6 shadow-sm">
-         <div className="flex justify-between items-center mb-2">
-            <span className="text-text-secondary font-bold uppercase tracking-wider text-sm">আজকের বিক্রি</span>
-            <TrendingUp className="w-6 h-6 text-accent" />
+      {/* Monthly Performance (Overlapping Card) */}
+      <div className="bg-white border border-border rounded-2xl p-4 shadow-md -mt-12 relative z-20">
+         <div className="flex justify-between items-center mb-3">
+            <span className="text-text-primary font-extrabold text-sm">মাসিক পারফরম্যান্স</span>
+            <span className="text-[10px] font-extrabold text-accent bg-accent/10 px-2 py-0.5 rounded-full uppercase tracking-wide">চলতি মাস</span>
          </div>
-         <div className="flex items-baseline gap-2 mb-4">
-            <span className="text-4xl font-extrabold tracking-tight text-accent">৳2,450.00</span>
-         </div>
-         <div className="h-2 bg-background-offwhite rounded-full mb-2 overflow-hidden border border-border">
-             <div className="h-full bg-accent rounded-full w-[70%]"></div>
-         </div>
-         <div className="flex justify-between text-sm font-bold text-text-muted">
-             <span>টার্গেট: ৳3,500.00</span>
-             <span className="text-accent">70% পূরণ</span>
+         <div className="flex items-center justify-between">
+            <div>
+               <p className="text-xs text-text-muted font-bold mb-0.5">মোট বিক্রি</p>
+               <p className="text-lg font-black text-text-primary leading-tight">৳৪,৫০,০০০</p>
+            </div>
+            <div className="w-px h-8 bg-border"></div>
+            <div>
+               <p className="text-xs text-text-muted font-bold mb-0.5">টার্গেট পূরণ</p>
+               <p className="text-lg font-black text-success leading-tight">৮২%</p>
+            </div>
          </div>
       </div>
 
