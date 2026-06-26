@@ -1,28 +1,36 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-background-main: #FFFFFF; /* Pure white for glare */
+  --color-background-main: #FFFFFF;
+  /* Pure white for glare */
   --color-background-offwhite: #F4F6F8;
   --color-background-sidebar: #0F172A;
-  
-  --color-accent: #2563EB; /* Deep Blue for primary */
+
+  --color-accent: #2563EB;
+  /* Deep Blue for primary */
   --color-accent-hover: #1D4ED8;
-  
+
   --color-border: #E2E8F0;
-  
-  --color-text-primary: #000000; /* Pure black for readability */
+
+  --color-text-primary: #000000;
+  /* Pure black for readability */
   --color-text-secondary: #334155;
   --color-text-muted: #64748B;
-  
-  --color-success: #059669; /* Emerald Green */
-  --color-warning: #D97706; /* Amber */
-  --color-danger: #DC2626; /* Red */
-  --color-info: #3B82F6; /* Light Blue */
-  
+
+  --color-success: #059669;
+  /* Emerald Green */
+  --color-warning: #D97706;
+  /* Amber */
+  --color-danger: #DC2626;
+  /* Red */
+  --color-info: #3B82F6;
+  /* Light Blue */
+
   --font-sans: Outfit, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-bengali: "Hind Siliguri", sans-serif;
-  
+
   --shadow-card: 0 4px 24px 0 rgba(0, 0, 0, 0.05);
   --shadow-up: 0 -4px 24px 0 rgba(0, 0, 0, 0.08);
 }

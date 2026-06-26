@@ -99,8 +99,19 @@ const SOLayout: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex flex-col flex-grow w-full overflow-hidden relative bg-white">
         
-        {/* Blue Upper Background (bKash style) */}
-        {location.pathname === '/so' && <div className="absolute top-0 left-0 w-full h-[30vh] bg-accent z-0 pb-10"></div>}
+        {/* Blue Upper Background — solid blue, gradient only at bottom join */}
+        {location.pathname === '/so' && (
+          <div className="absolute top-0 left-0 w-full h-[30vh] bg-accent z-0">
+            {/* Bottom 30% gradient fade into the white card */}
+            <div
+              className="absolute bottom-0 left-0 w-full"
+              style={{
+                height: '30%',
+                background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.35) 60%, rgba(255,255,255,0.85) 100%)',
+              }}
+            />
+          </div>
+        )}
 
         {/* Top Header - Inside the Blue Background */}
         {location.pathname === '/so' && (

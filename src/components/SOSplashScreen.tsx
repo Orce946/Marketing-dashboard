@@ -37,7 +37,7 @@ const SOSplashScreen: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(160deg, #F97316 0%, #EA580C 50%, #C2410C 100%)',
+        background: 'linear-gradient(160deg, #22C55E 0%, #16A34A 50%, #15803D 100%)',
         transition: 'opacity 0.6s ease, transform 0.6s ease',
         opacity: phase === 'exit' ? 0 : 1,
         transform: phase === 'exit' ? 'scale(1.04)' : 'scale(1)',
