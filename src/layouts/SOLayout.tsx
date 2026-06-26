@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { Home, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, X, LogOut, Search, User, Settings, HelpCircle } from 'lucide-react';
+import SOGuidedTour from '../components/GuidedTour';
 
 const SOLayout: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -91,6 +92,7 @@ const SOLayout: React.FC = () => {
 
   return (
     <div className="fixed inset-0 flex overflow-hidden bg-background-offwhite font-sans text-text-primary">
+      <SOGuidedTour />
 
       {/* Main Content Area */}
       <div className="flex flex-col flex-grow w-full overflow-hidden relative bg-white">
@@ -107,6 +109,7 @@ const SOLayout: React.FC = () => {
           <div className="relative" ref={accountRef}>
             <div className="flex items-center gap-3 p-1.5 pr-3">
               <div 
+                id="tour-profile"
                 onClick={() => { setIsAccountOpen(!isAccountOpen); setIsNotificationOpen(false); }}
                 className="w-12 h-12 bg-white border-2 border-white/20 text-accent rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-white/90 transition-colors"
               >
@@ -188,7 +191,7 @@ const SOLayout: React.FC = () => {
               <button 
                 onClick={() => { setIsNotificationOpen(!isNotificationOpen); setIsAccountOpen(false); }}
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-accent hover:bg-white/90 shadow-md transition-colors relative"
-                id="so-notification-btn"
+                id="tour-notifications"
                 title="নোটিফিকেশন"
               >
                 <Bell className="w-5 h-5" />
@@ -321,7 +324,7 @@ const SOLayout: React.FC = () => {
         {/* Bottom Nav Bar - Fixed at bottom */}
         <div className="absolute bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-border shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-20 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <div className="flex items-center justify-between w-full max-w-xl mx-auto px-6 py-2.5">
-            <Link to="/so" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
+            <Link id="tour-nav-home" to="/so" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
                <Home className="w-6 h-6" />
                <span className="text-[10px] font-bold whitespace-nowrap">হোম</span>
             </Link>
@@ -329,15 +332,15 @@ const SOLayout: React.FC = () => {
                <Calendar className="w-6 h-6" />
                <span className="text-[10px] font-bold whitespace-nowrap">হাজিরা</span>
             </Link>
-            <Link to="/so/todo" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/todo' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
+            <Link id="tour-nav-todo" to="/so/todo" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/todo' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
                <CheckSquare className="w-6 h-6" />
                <span className="text-[10px] font-bold whitespace-nowrap">টাস্ক</span>
             </Link>
-            <Link to="/so/map" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/map' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
+            <Link id="tour-nav-map" to="/so/map" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/map' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
                <MapPin className="w-6 h-6" />
                <span className="text-[10px] font-bold whitespace-nowrap">ম্যাপ</span>
             </Link>
-            <Link to="/so/reports" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/reports' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
+            <Link id="tour-nav-reports" to="/so/reports" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/reports' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
                <FileText className="w-6 h-6" />
                <span className="text-[10px] font-bold whitespace-nowrap">রিপোর্ট</span>
             </Link>
@@ -350,6 +353,7 @@ const SOLayout: React.FC = () => {
 
         {/* Global Floating Chatbot Button */}
         <NavLink 
+          id="tour-chatbot"
           to="/so/chatbot"
           className="absolute bottom-20 right-6 w-14 h-14 bg-accent text-white rounded-full flex items-center justify-center shadow-lg hover:bg-accent-hover transition-transform hover:scale-105 active:scale-95 z-30"
         >
