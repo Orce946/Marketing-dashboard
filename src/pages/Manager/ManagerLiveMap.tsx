@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { AlertTriangle, Navigation2, Camera } from 'lucide-react';
 import { useTheme } from '../../layouts/ManagerLayout';
+import './ManagerLiveMap.css';
 
-// Custom icons for SOs
-const createSOIcon = (color: string, isDarkMode: boolean) => {
-  const borderColor = isDarkMode ? '#111827' : '#ffffff';
+// Custom HTML icons for SOs
+const createSOHtmlIcon = (so: any) => {
+  const initials = so.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase();
   return L.divIcon({
-    className: 'custom-so-icon',
+    className: '',
     html: `
-      <div style="background-color: ${color}; width: 32px; height: 32px; border-radius: 50%; border: 3px solid ${borderColor}; box-shadow: 0 0 15px ${color}80; display: flex; align-items: center; justify-content: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="so-live-marker ${so.status}">
+        <div class="so-beacon-ring"></div>
+        <div class="so-avatar-img">
+           ${initials}
+        </div>
       </div>
     `,
-    iconSize: [32, 32],
-    iconAnchor: [16, 16]
+    iconSize: [44, 44],
+    iconAnchor: [22, 22]
   });
 };
 
@@ -34,11 +38,11 @@ const createPhotoIcon = () => {
 };
 
 const soData = [
-  { id: 'SO-01', name: 'Md. Faruk', lat: 23.7461, lng: 90.3742, status: 'alert', battery: '42%', lastPing: '2m ago', alertReason: 'GPS Deviation > 2km', route: [[23.7340, 90.3928], [23.7461, 90.3742]] },
-  { id: 'SO-02', name: 'Ahsan', lat: 23.7925, lng: 90.4078, status: 'alert', battery: '15%', lastPing: '1m ago', alertReason: 'Low Battery & Fast Visit', route: [[23.7749, 90.3659], [23.8048, 90.3654], [23.7925, 90.4078]] },
-  { id: 'SO-03', name: 'Kamrul', lat: 23.7395, lng: 90.3756, status: 'active', battery: '88%', lastPing: 'Just now', route: [[23.7104, 90.4074], [23.7253, 90.3976], [23.7395, 90.3756]] },
-  { id: 'SO-04', name: 'Hasan', lat: 23.7510, lng: 90.3935, status: 'active', battery: '65%', lastPing: '5m ago', route: [] },
-  { id: 'SO-05', name: 'Rahim', lat: 23.8740, lng: 90.3995, status: 'inactive', battery: '0%', lastPing: '2h ago', route: [] },
+  { id: 'SO-01', name: 'Md. Faruk', lat: 23.7461, lng: 90.3742, status: 'alert', visits: '4/15', lastPing: '2m ago', alertReason: 'GPS Deviation > 2km', route: [[23.7340, 90.3928], [23.7461, 90.3742]] },
+  { id: 'SO-02', name: 'Ahsan', lat: 23.7925, lng: 90.4078, status: 'alert', visits: '12/12', lastPing: '1m ago', alertReason: 'Fast Visit', route: [[23.7749, 90.3659], [23.8048, 90.3654], [23.7925, 90.4078]] },
+  { id: 'SO-03', name: 'Kamrul', lat: 23.7395, lng: 90.3756, status: 'active', visits: '8/10', lastPing: 'Just now', route: [[23.7104, 90.4074], [23.7253, 90.3976], [23.7395, 90.3756]] },
+  { id: 'SO-04', name: 'Hasan', lat: 23.7510, lng: 90.3935, status: 'active', visits: '5/8', lastPing: '5m ago', route: [] },
+  { id: 'SO-05', name: 'Rahim', lat: 23.8740, lng: 90.3995, status: 'inactive', visits: '0/10', lastPing: '2h ago', route: [] },
 ];
 
 const photoUploads = [
@@ -65,19 +69,14 @@ const ManagerLiveMap: React.FC = () => {
   const { isDarkMode } = useTheme();
   const [selectedSO, setSelectedSO] = useState<string | null>(null);
 
-  const activeIcon = createSOIcon(isDarkMode ? '#38BDF8' : '#2563EB', isDarkMode); 
-  const alertIcon = createSOIcon('#EF4444', isDarkMode);  
-  const inactiveIcon = createSOIcon('#9CA3AF', isDarkMode); 
   const photoIcon = createPhotoIcon();
 
-  const getIconForStatus = (status: string) => {
-    if (status === 'alert') return alertIcon;
-    if (status === 'inactive') return inactiveIcon;
-    return activeIcon;
+  const getIconForStatus = (so: any) => {
+    return createSOHtmlIcon(so);
   };
 
   return (
-    <div className="h-full w-full bg-white dark:bg-[#111827] rounded-2xl border border-gray-200 dark:border-[#1F2937] overflow-hidden shadow-xl relative flex transition-colors duration-300">
+    <div className="h-full w-full bg-white dark:bg-[#111827] rounded-2xl border border-gray-200 dark:border-[#1F2937] overflow-hidden shadow-xl relative flex transition-colors duration-300 manager-map-root">
        
        {/* Sidebar SO List */}
        <div className="w-[320px] h-full bg-gray-50 dark:bg-[#0B1120] border-r border-gray-200 dark:border-[#1F2937] flex flex-col flex-shrink-0 z-10 relative transition-colors duration-300">
@@ -102,7 +101,7 @@ const ManagerLiveMap: React.FC = () => {
                         <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">Last Ping: {so.lastPing}</div>
                      </div>
                      <div className={`text-xs font-bold px-2 py-0.5 rounded-full ${so.status === 'alert' ? 'bg-red-600 dark:bg-[#EF4444] text-white' : so.status === 'inactive' ? 'bg-gray-400 dark:bg-gray-700 text-white' : 'bg-blue-100 dark:bg-[#38BDF8]/20 text-blue-700 dark:text-[#38BDF8] border border-blue-200 dark:border-transparent'}`}>
-                        {so.battery}
+                        {so.visits} Visits
                      </div>
                   </div>
                   {so.alertReason && (
@@ -128,24 +127,40 @@ const ManagerLiveMap: React.FC = () => {
 
            {soData.map(so => (
              <React.Fragment key={so.id}>
-               <Marker 
+                <Marker 
                  position={[so.lat, so.lng]}
-                 icon={getIconForStatus(so.status)}
+                 icon={getIconForStatus(so)}
                >
-                 <Popup className={isDarkMode ? 'manager-popup-dark' : 'manager-popup-light'}>
-                   <div className={`p-2 min-w-[200px] ${isDarkMode ? 'bg-[#111827] text-white' : 'bg-white text-gray-900'}`}>
-                     <h3 className="font-extrabold text-base mb-1">{so.id} - {so.name}</h3>
-                     <div className="grid grid-cols-2 gap-2 mt-3">
-                        <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Battery: <span className={`font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{so.battery}</span></div>
-                        <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Status: <span className={`font-bold capitalize ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{so.status}</span></div>
+                 <Tooltip direction="right" offset={[15, 0]} opacity={1}>
+                   <div className="font-sans min-w-[170px]">
+                     <div className="font-extrabold text-[15px] mb-2">{so.name}</div>
+                     
+                     <div className="flex items-center gap-2 mb-2">
+                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                         so.status === 'active' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400' :
+                         so.status === 'alert' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-400' :
+                         'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+                       }`}>
+                         {so.status === 'active' ? 'On Route' : so.status === 'alert' ? 'Alert' : 'Idle'}
+                       </span>
                      </div>
+
+                     <div className="flex justify-between text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
+                       <span>Visits</span>
+                       <span className="font-bold text-gray-900 dark:text-white">{so.visits}</span>
+                     </div>
+                     
                      {so.alertReason && (
-                       <div className={`mt-3 p-2 rounded-lg text-xs font-bold ${isDarkMode ? 'bg-[#EF4444]/10 border border-[#EF4444]/30 text-[#EF4444]' : 'bg-red-50 border border-red-200 text-red-600'}`}>
-                          Alert: {so.alertReason}
+                       <div className="mt-1 mb-2 p-1.5 rounded-lg text-[10px] font-bold bg-orange-50 border border-orange-200 text-orange-600 dark:bg-orange-900/20 dark:border-orange-500/30 dark:text-orange-400">
+                          {so.alertReason}
                        </div>
                      )}
+
+                     <div className="text-[10px] text-gray-500 font-medium mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                       Active {so.lastPing}
+                     </div>
                    </div>
-                 </Popup>
+                 </Tooltip>
                </Marker>
 
                {/* Route Polyline (only show if selected or globally active) */}

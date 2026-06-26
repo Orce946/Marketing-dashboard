@@ -9,6 +9,9 @@ const SOHome: React.FC = () => {
   const officer = useMemo(() => salesOfficers.find(o => o.id === currentUserId), []);
   const officerDealers = useMemo(() => dealers.filter(d => d.officerId === currentUserId), []);
   const visitPlan = useMemo(() => getRecommendedVisitPlan(currentUserId), []);
+  const taskDealers = useMemo(() => {
+    return visitPlan.map(action => officerDealers.find(d => d.id === action.dealerId)).filter(Boolean) as typeof dealers;
+  }, [visitPlan, officerDealers]);
 
   const getActionIcon = (type: string) => {
     switch (type) {
@@ -72,9 +75,14 @@ const SOHome: React.FC = () => {
 
       {/* Map Snapshot */}
       <div className="bg-white border-2 border-border rounded-2xl p-2 shadow-sm">
-        <h2 className="font-bold text-text-secondary text-sm uppercase mb-2 mt-2 px-3 tracking-wide">My Territory Route</h2>
+        <div className="flex justify-between items-center px-3 mt-2 mb-2">
+          <h2 className="font-bold text-text-secondary text-sm uppercase tracking-wide">My Territory Route</h2>
+          <Link to="/so/map" className="flex items-center gap-1 text-xs font-bold bg-accent text-white px-3 py-1.5 rounded-lg active:scale-95 transition-transform shadow-md">
+            <Navigation className="w-3 h-3" /> Navigate
+          </Link>
+        </div>
         <div className="rounded-xl overflow-hidden">
-          <DealerMap dealers={officerDealers} zoom={12} />
+          <DealerMap dealers={taskDealers} zoom={12} />
         </div>
       </div>
 

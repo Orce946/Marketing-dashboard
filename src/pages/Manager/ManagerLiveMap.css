@@ -1,0 +1,137 @@
+/* ============================================================
+   ManagerLiveMap.css
+   Premium minimalist executive dashboard styling
+   ============================================================ */
+
+/* ---------- Map Canvas Filtering ---------- */
+/* Apply an ultra-light, desaturated wash over the basemap */
+.manager-map-root .leaflet-tile-pane {
+  filter: saturate(0.15) brightness(1.05) contrast(0.95);
+  opacity: 0.9;
+}
+
+.dark .manager-map-root .leaflet-tile-pane {
+  /* For dark mode, adapt the tiles */
+  filter: saturate(0.2) invert(0.9) hue-rotate(180deg) brightness(0.9) contrast(1.1);
+  opacity: 0.8;
+}
+
+.manager-map-root .leaflet-control-attribution {
+  display: none !important;
+}
+
+/* ---------- Custom Avatar Marker ---------- */
+.so-live-marker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+.so-avatar-img {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: -0.5px;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.so-live-marker:hover .so-avatar-img {
+  transform: scale(1.05);
+}
+
+.dark .so-avatar-img {
+  border-color: #1e293b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Marker Status Colors */
+.so-live-marker.active .so-avatar-img { background-color: #2563eb; }
+.so-live-marker.alert .so-avatar-img { background-color: #ea580c; }
+.so-live-marker.inactive .so-avatar-img { background-color: #64748b; }
+
+/* ---------- Live Beacon Pulse Animation ---------- */
+.so-beacon-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 38px;
+  height: 38px;
+  margin-top: -19px;
+  margin-left: -19px;
+  border-radius: 50%;
+  background-color: rgba(37, 99, 235, 0.4);
+  z-index: 1;
+  animation: beacon-pulse 2s cubic-bezier(0.215, 0.610, 0.355, 1) infinite;
+}
+
+.so-live-marker.alert .so-beacon-ring {
+  background-color: rgba(234, 88, 12, 0.5); /* Orange for alert */
+}
+
+.so-live-marker.inactive .so-beacon-ring {
+  display: none; /* No pulse when inactive */
+}
+
+@keyframes beacon-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* ---------- Glassmorphism Tooltip ---------- */
+.manager-map-root .leaflet-tooltip {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+  padding: 12px 16px !important;
+  color: #0f172a !important;
+  
+  /* Initial state for fade animation */
+  opacity: 0;
+  margin-top: 5px;
+  animation: tooltip-fade-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.manager-map-root .leaflet-tooltip-left {
+  animation: tooltip-fade-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.manager-map-root .leaflet-tooltip::before {
+  display: none !important; /* Hide the default leaflet arrow for cleaner look */
+}
+
+@keyframes tooltip-fade-in {
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+
+.dark .manager-map-root .leaflet-tooltip {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border-color: rgba(51, 65, 85, 0.5) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  color: #f8fafc !important;
+}

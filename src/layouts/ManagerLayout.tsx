@@ -101,9 +101,12 @@ const ManagerLayout: React.FC = () => {
                              <p className="text-sm font-bold text-white leading-tight">Sarah Jenkins</p>
                              <p className="text-xs text-blue-200 dark:text-[#38BDF8] font-medium">Regional Manager</p>
                           </div>
-                          <div className="w-10 h-10 rounded-full bg-blue-800 dark:bg-[#1F2937] border border-blue-600 dark:border-[#374151] flex items-center justify-center font-bold text-white">
+                          <NavLink 
+                            to="/manager/settings" 
+                            className="w-10 h-10 rounded-full bg-blue-800 dark:bg-[#1F2937] border border-blue-600 dark:border-[#374151] flex items-center justify-center font-bold text-white hover:ring-2 hover:ring-white dark:hover:ring-[#38BDF8] transition-all cursor-pointer"
+                          >
                              SJ
-                          </div>
+                          </NavLink>
                         </div>
                      </div>
                  </header>
