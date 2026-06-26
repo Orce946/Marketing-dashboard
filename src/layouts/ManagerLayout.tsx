@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Map as MapIcon, AlertTriangle, BarChart3, Users, Settings, LogOut, Sun, Moon, Menu, X } from 'lucide-react';
+import ManagerSplashScreen from '../components/ManagerSplashScreen';
 
 export const ThemeContext = createContext({ isDarkMode: false, toggleTheme: () => {} });
 export const useTheme = () => useContext(ThemeContext);
@@ -17,6 +18,7 @@ const ManagerLayout: React.FC = () => {
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
       <div className={`${isDarkMode ? 'dark' : ''}`}>
         <div className="flex w-screen h-screen overflow-hidden bg-gray-50 dark:bg-[#0B1120] font-sans text-gray-900 dark:text-white transition-colors duration-300">
+            <ManagerSplashScreen />
             
             {/* Sidebar Overlay for Mobile/Smaller screens */}
             {isSidebarOpen && (

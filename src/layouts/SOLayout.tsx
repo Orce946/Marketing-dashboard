@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { Home, CheckSquare, Calendar, Users, FileText, Bell, MapPin, Bot, X, LogOut, Search, User, Settings, HelpCircle } from 'lucide-react';
 import SOGuidedTour from '../components/GuidedTour';
+import SOSplashScreen from '../components/SOSplashScreen';
 
 const SOLayout: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -92,6 +93,7 @@ const SOLayout: React.FC = () => {
 
   return (
     <div className="fixed inset-0 flex overflow-hidden bg-background-offwhite font-sans text-text-primary">
+      <SOSplashScreen />
       <SOGuidedTour />
 
       {/* Main Content Area */}
