@@ -289,7 +289,7 @@ const SOMap: React.FC = () => {
 
             {/* Progress Dots */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, paddingLeft: 2 }}>
-              {tasks.map((t, i) => (
+              {tasks.map(t => (
                 <div
                   key={t.id}
                   className={`so-map-task-dot ${
