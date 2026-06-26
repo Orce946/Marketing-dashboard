@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
+import Joyride, { type CallBackProps, STATUS, type Step } from 'react-joyride';
 import { Sparkles, ChevronRight, ChevronLeft, X } from 'lucide-react';
 
 const TOUR_KEY = 'so_guided_tour_done_v1';
