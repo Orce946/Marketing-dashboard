@@ -98,7 +98,7 @@ const SOLayout: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex flex-col flex-grow w-full overflow-hidden relative bg-white">
-        
+
         {/* Blue Upper Background — solid blue, gradient only at bottom join */}
         {location.pathname === '/so' && (
           <div className="absolute top-0 left-0 w-full h-[30vh] bg-accent z-0">
@@ -117,147 +117,152 @@ const SOLayout: React.FC = () => {
         {location.pathname === '/so' && (
           <header className="flex-shrink-0 pt-4 pb-2 px-4 flex flex-col relative z-50 text-white">
             <div className="flex items-center justify-between w-full">
-          
-          {/* Left: Account button with avatar and name */}
-          <div className="relative" ref={accountRef}>
-            <div className="flex items-center gap-3 p-1.5 pr-3">
-              <div 
-                id="tour-profile"
-                onClick={() => { setIsAccountOpen(!isAccountOpen); setIsNotificationOpen(false); }}
-                className="w-12 h-12 bg-white border-2 border-white/20 text-accent rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-white/90 transition-colors"
-              >
-                <User className="w-6 h-6" />
-              </div>
-              <div className="text-left">
-                <p className="text-sm font-extrabold leading-tight tracking-tight text-white">Michael K.</p>
-                <button className="text-xs bg-white text-accent font-bold px-3 py-1 rounded-full mt-1 shadow-sm flex items-center gap-1 active:scale-95 transition-transform">
-                  <span className="w-3 h-3 rounded-full bg-accent text-white flex items-center justify-center text-[8px] font-black">৳</span> ব্যালেন্স দেখুন
-                </button>
-              </div>
-            </div>
 
-            {/* Account Dropdown */}
-            {isAccountOpen && (
-              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-border overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 text-text-primary">
-                <div className="p-4 bg-gradient-to-br from-accent/5 to-accent/10 border-b border-border">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-accent text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
-                      MK
-                    </div>
-                    <div>
-                      <p className="font-extrabold text-sm">Michael K.</p>
-                      <p className="text-xs text-text-muted">সেলস অফিসার</p>
-                      <div className="flex items-center gap-1 text-success text-xs font-bold mt-0.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-success"></span>
-                        ডিউটিতে আছেন
-                      </div>
-                    </div>
+              {/* Left: Account button with avatar and name */}
+              <div className="relative" ref={accountRef}>
+                <div className="flex items-center gap-3 p-1.5 pr-3">
+                  <div
+                    id="tour-profile"
+                    onClick={() => { setIsAccountOpen(!isAccountOpen); setIsNotificationOpen(false); }}
+                    className="w-12 h-12 bg-white border-2 border-white/20 text-accent rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-white/90 transition-colors"
+                  >
+                    <User className="w-6 h-6" />
                   </div>
-                </div>
-                <div className="p-2">
-                  <button 
-                    onClick={() => { setIsAccountOpen(false); navigate('/so/profile'); }}
-                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-text-secondary hover:bg-background-offwhite transition-colors"
-                  >
-                    <User className="w-4 h-4" /> প্রোফাইল দেখুন
-                  </button>
-                  <button 
-                    onClick={() => { setIsAccountOpen(false); navigate('/so/settings'); }}
-                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-text-secondary hover:bg-background-offwhite transition-colors"
-                  >
-                    <Settings className="w-4 h-4" /> সেটিংস
-                  </button>
-                  <button 
-                    onClick={() => { setIsAccountOpen(false); }}
-                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-text-secondary hover:bg-background-offwhite transition-colors"
-                  >
-                    <HelpCircle className="w-4 h-4" /> সাহায্য
-                  </button>
-                </div>
-                <div className="p-2 border-t border-border">
-                  <button 
-                    onClick={() => { setIsAccountOpen(false); navigate('/'); }}
-                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-bold text-danger hover:bg-danger/5 transition-colors"
-                  >
-                    <LogOut className="w-4 h-4" /> লগ আউট
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-          
-          {/* Right: Search, Notification Bell, Grid Menu */}
-          <div className="flex items-center gap-3">
-            
-            {/* Search Button */}
-            <button 
-              onClick={() => { setIsSearchOpen(true); setIsNotificationOpen(false); setIsAccountOpen(false); }}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-accent hover:bg-white/90 shadow-md transition-colors"
-              id="so-search-btn"
-              title="সার্চ করুন"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-
-            {/* Notification Bell */}
-            <div className="relative" ref={notificationRef}>
-              <button 
-                onClick={() => { setIsNotificationOpen(!isNotificationOpen); setIsAccountOpen(false); }}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-accent hover:bg-white/90 shadow-md transition-colors relative"
-                id="tour-notifications"
-                title="নোটিফিকেশন"
-              >
-                <Bell className="w-5 h-5" />
-                {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-danger rounded-full border-2 border-white"></span>
-                )}
-              </button>
-
-              {/* Notification Dropdown */}
-              {isNotificationOpen && (
-                <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-border overflow-hidden z-50 text-text-primary">
-                  <div className="p-4 border-b border-border flex items-center justify-between">
-                    <h3 className="font-extrabold text-sm">নোটিফিকেশন</h3>
-                    {unreadCount > 0 && (
-                      <span className="text-xs font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full">{unreadCount} নতুন</span>
-                    )}
-                  </div>
-                  <div className="max-h-72 overflow-y-auto">
-                    {notifications.map(n => (
-                      <button
-                        key={n.id}
-                        onClick={() => setIsNotificationOpen(false)}
-                        className={`w-full text-left px-4 py-3 border-b border-border/50 hover:bg-background-offwhite transition-colors ${n.unread ? 'bg-accent/[0.03]' : ''}`}
-                      >
-                        <div className="flex items-start gap-3">
-                          {n.unread && (
-                            <span className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0"></span>
-                          )}
-                          {!n.unread && <span className="w-2 h-2 mt-1.5 flex-shrink-0"></span>}
-                          <div>
-                            <p className={`text-sm leading-snug ${n.unread ? 'font-bold text-text-primary' : 'font-medium text-text-secondary'}`}>{n.text}</p>
-                            <p className="text-xs text-text-muted mt-1">{n.time}</p>
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                  <div className="p-3 border-t border-border">
-                    <button 
-                      onClick={() => setIsNotificationOpen(false)}
-                      className="w-full text-center text-sm font-bold text-accent hover:text-accent-hover transition-colors py-1"
-                    >
-                      সব দেখুন
+                  <div className="text-left">
+                    <p className="text-sm font-extrabold leading-tight tracking-tight text-white">Michael K.</p>
+                    <button className="text-xs bg-white text-accent font-bold px-3 py-1 rounded-full mt-1 shadow-sm flex items-center gap-1 active:scale-95 transition-transform">
+                      <span className="w-3 h-3 rounded-full bg-accent text-white flex items-center justify-center text-[8px] font-black">৳</span> ব্যালেন্স দেখুন
                     </button>
                   </div>
                 </div>
-              )}
+
+                {/* Account Dropdown */}
+                {isAccountOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-border overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 text-text-primary">
+                    <div className="p-4 bg-gradient-to-br from-accent/5 to-accent/10 border-b border-border">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-accent text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
+                          MK
+                        </div>
+                        <div>
+                          <p className="font-extrabold text-sm">Michael K.</p>
+                          <p className="text-xs text-text-muted">সেলস অফিসার</p>
+                          <div className="flex items-center gap-1 text-success text-xs font-bold mt-0.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-success"></span>
+                            ডিউটিতে আছেন
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-2">
+                      <button
+                        onClick={() => { setIsAccountOpen(false); navigate('/so/profile'); }}
+                        className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-text-secondary hover:bg-background-offwhite transition-colors"
+                      >
+                        <User className="w-4 h-4" /> প্রোফাইল দেখুন
+                      </button>
+                      <button
+                        onClick={() => { setIsAccountOpen(false); navigate('/so/settings'); }}
+                        className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-text-secondary hover:bg-background-offwhite transition-colors"
+                      >
+                        <Settings className="w-4 h-4" /> সেটিংস
+                      </button>
+                      <button
+                        onClick={() => { setIsAccountOpen(false); }}
+                        className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-text-secondary hover:bg-background-offwhite transition-colors"
+                      >
+                        <HelpCircle className="w-4 h-4" /> সাহায্য
+                      </button>
+                    </div>
+                    <div className="p-2 border-t border-border">
+                      <button
+                        onClick={() => {
+                          setIsAccountOpen(false);
+                          sessionStorage.removeItem('manager_splash_shown_v1');
+                          sessionStorage.removeItem('so_splash_shown_v1');
+                          navigate('/');
+                        }}
+                        className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-bold text-danger hover:bg-danger/5 transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" /> লগ আউট
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Right: Search, Notification Bell, Grid Menu */}
+              <div className="flex items-center gap-3">
+
+                {/* Search Button */}
+                <button
+                  onClick={() => { setIsSearchOpen(true); setIsNotificationOpen(false); setIsAccountOpen(false); }}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-accent hover:bg-white/90 shadow-md transition-colors"
+                  id="so-search-btn"
+                  title="সার্চ করুন"
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+
+                {/* Notification Bell */}
+                <div className="relative" ref={notificationRef}>
+                  <button
+                    onClick={() => { setIsNotificationOpen(!isNotificationOpen); setIsAccountOpen(false); }}
+                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-accent hover:bg-white/90 shadow-md transition-colors relative"
+                    id="tour-notifications"
+                    title="নোটিফিকেশন"
+                  >
+                    <Bell className="w-5 h-5" />
+                    {unreadCount > 0 && (
+                      <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-danger rounded-full border-2 border-white"></span>
+                    )}
+                  </button>
+
+                  {/* Notification Dropdown */}
+                  {isNotificationOpen && (
+                    <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-border overflow-hidden z-50 text-text-primary">
+                      <div className="p-4 border-b border-border flex items-center justify-between">
+                        <h3 className="font-extrabold text-sm">নোটিফিকেশন</h3>
+                        {unreadCount > 0 && (
+                          <span className="text-xs font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full">{unreadCount} নতুন</span>
+                        )}
+                      </div>
+                      <div className="max-h-72 overflow-y-auto">
+                        {notifications.map(n => (
+                          <button
+                            key={n.id}
+                            onClick={() => setIsNotificationOpen(false)}
+                            className={`w-full text-left px-4 py-3 border-b border-border/50 hover:bg-background-offwhite transition-colors ${n.unread ? 'bg-accent/[0.03]' : ''}`}
+                          >
+                            <div className="flex items-start gap-3">
+                              {n.unread && (
+                                <span className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0"></span>
+                              )}
+                              {!n.unread && <span className="w-2 h-2 mt-1.5 flex-shrink-0"></span>}
+                              <div>
+                                <p className={`text-sm leading-snug ${n.unread ? 'font-bold text-text-primary' : 'font-medium text-text-secondary'}`}>{n.text}</p>
+                                <p className="text-xs text-text-muted mt-1">{n.time}</p>
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="p-3 border-t border-border">
+                        <button
+                          onClick={() => setIsNotificationOpen(false)}
+                          className="w-full text-center text-sm font-bold text-accent hover:text-accent-hover transition-colors py-1"
+                        >
+                          সব দেখুন
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+
+
+              </div>
             </div>
-
-
-
-          </div>
-          </div>
             {/* Clock and Date in Header */}
             <div className="w-full text-right mt-4 pr-2">
               <h2 className="text-2xl font-extrabold font-mono tracking-tighter drop-shadow-md">
@@ -265,7 +270,7 @@ const SOLayout: React.FC = () => {
               </h2>
               <p className="text-white/80 font-bold text-xs mt-0.5 drop-shadow-sm">{formatDate(currentTime)}</p>
             </div>
-        </header>
+          </header>
         )}
         {/* Search Overlay */}
         {isSearchOpen && (
@@ -283,7 +288,7 @@ const SOLayout: React.FC = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="flex-grow bg-transparent outline-none text-sm font-medium text-text-primary placeholder:text-text-muted"
                   />
-                  <button 
+                  <button
                     onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }}
                     className="p-1 rounded-lg hover:bg-background-offwhite transition-colors"
                   >
@@ -338,34 +343,34 @@ const SOLayout: React.FC = () => {
         <div className="absolute bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-border shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-20 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <div className="flex items-center justify-between w-full max-w-xl mx-auto px-6 py-2.5">
             <Link id="tour-nav-home" to="/so" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
-               <Home className="w-6 h-6" />
-               <span className="text-[10px] font-bold whitespace-nowrap">হোম</span>
+              <Home className="w-6 h-6" />
+              <span className="text-[10px] font-bold whitespace-nowrap">হোম</span>
             </Link>
             <Link to="/so/attendance" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/attendance' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
-               <Calendar className="w-6 h-6" />
-               <span className="text-[10px] font-bold whitespace-nowrap">হাজিরা</span>
+              <Calendar className="w-6 h-6" />
+              <span className="text-[10px] font-bold whitespace-nowrap">হাজিরা</span>
             </Link>
             <Link id="tour-nav-todo" to="/so/todo" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/todo' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
-               <CheckSquare className="w-6 h-6" />
-               <span className="text-[10px] font-bold whitespace-nowrap">টাস্ক</span>
+              <CheckSquare className="w-6 h-6" />
+              <span className="text-[10px] font-bold whitespace-nowrap">টাস্ক</span>
             </Link>
             <Link id="tour-nav-map" to="/so/map" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/map' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
-               <MapPin className="w-6 h-6" />
-               <span className="text-[10px] font-bold whitespace-nowrap">ম্যাপ</span>
+              <MapPin className="w-6 h-6" />
+              <span className="text-[10px] font-bold whitespace-nowrap">ম্যাপ</span>
             </Link>
             <Link id="tour-nav-reports" to="/so/reports" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/reports' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
-               <FileText className="w-6 h-6" />
-               <span className="text-[10px] font-bold whitespace-nowrap">রিপোর্ট</span>
+              <FileText className="w-6 h-6" />
+              <span className="text-[10px] font-bold whitespace-nowrap">রিপোর্ট</span>
             </Link>
             <Link to="/so/dealers" className={`flex flex-col items-center gap-1.5 ${location.pathname === '/so/dealers' ? 'text-accent' : 'text-text-muted hover:text-accent'} transition-colors flex-1`}>
-               <Users className="w-6 h-6" />
-               <span className="text-[10px] font-bold whitespace-nowrap">ডিলার</span>
+              <Users className="w-6 h-6" />
+              <span className="text-[10px] font-bold whitespace-nowrap">ডিলার</span>
             </Link>
           </div>
         </div>
 
         {/* Global Floating Chatbot Button */}
-        <NavLink 
+        <NavLink
           id="tour-chatbot"
           to="/so/chatbot"
           className="absolute bottom-20 right-6 w-14 h-14 bg-accent text-white rounded-full flex items-center justify-center shadow-lg hover:bg-accent-hover transition-transform hover:scale-105 active:scale-95 z-30"

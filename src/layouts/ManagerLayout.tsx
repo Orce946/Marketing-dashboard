@@ -67,7 +67,11 @@ const ManagerLayout: React.FC = () => {
                         <Settings className="w-5 h-5" />
                         Settings
                      </NavLink>
-                     <button onClick={() => navigate('/')} className="flex items-center gap-3 w-full p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1F2937] hover:text-gray-900 dark:hover:text-white transition-colors font-semibold">
+                     <button onClick={() => {
+                        sessionStorage.removeItem('manager_splash_shown_v1');
+                        sessionStorage.removeItem('so_splash_shown_v1');
+                        navigate('/');
+                     }} className="flex items-center gap-3 w-full p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1F2937] hover:text-gray-900 dark:hover:text-white transition-colors font-semibold">
                         <LogOut className="w-5 h-5" />
                         Logout
                      </button>
